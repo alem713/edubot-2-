@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Умный наставник - AI помощник для ЕНТ</title>
+    <title>Учебный помощник - Подготовка к экзаменам</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -66,22 +66,37 @@
             margin-bottom: 2rem;
         }
         
-        /* AI Chat Section */
-        .ai-section {
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Chat Section */
+        .chat-section {
             background: white;
             border-radius: 20px;
-            padding: 2.5rem;
+            padding: 2rem;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
         }
         
         .section-title {
             display: flex;
             align-items: center;
             gap: 15px;
-            font-size: 2rem;
+            font-size: 1.8rem;
             color: var(--secondary);
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             padding-bottom: 1rem;
             border-bottom: 3px solid var(--accent);
         }
@@ -90,61 +105,22 @@
             color: var(--accent);
         }
         
-        .token-status {
-            background: #e7f9ff;
-            padding: 1rem 1.5rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            border-left: 5px solid var(--success);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .token-status i {
-            font-size: 1.5rem;
-            color: var(--success);
-        }
-        
-        .status-text {
-            flex-grow: 1;
-        }
-        
-        .status-label {
-            font-weight: 600;
-            color: var(--secondary);
-        }
-        
-        .status-value {
-            font-family: monospace;
-            background: rgba(0,0,0,0.05);
-            padding: 0.3rem 0.8rem;
-            border-radius: 5px;
-            font-size: 0.9rem;
-            word-break: break-all;
-        }
-        
-        /* Chat Interface */
-        .chat-container {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-        
         .chat-messages {
+            flex: 1;
             height: 400px;
             overflow-y: auto;
             padding: 1.5rem;
             background: #f8f9ff;
             border-radius: 15px;
             border: 2px solid #e0e7ff;
+            margin-bottom: 1.5rem;
         }
         
         .message {
             margin-bottom: 1.2rem;
             padding: 1rem 1.5rem;
             border-radius: 15px;
-            max-width: 80%;
+            max-width: 85%;
             animation: fadeIn 0.3s ease;
         }
         
@@ -239,7 +215,7 @@
             color: white;
             border: none;
             border-radius: 15px;
-            padding: 0 2.5rem;
+            padding: 0 2rem;
             cursor: pointer;
             transition: all 0.3s;
             font-weight: 600;
@@ -263,9 +239,9 @@
         /* Quick Questions */
         .quick-questions {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: 1fr;
             gap: 1rem;
-            margin-top: 2rem;
+            margin-top: 1.5rem;
         }
         
         .quick-question-btn {
@@ -278,6 +254,9 @@
             transition: all 0.3s;
             font-size: 0.95rem;
             color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .quick-question-btn:hover {
@@ -286,42 +265,122 @@
             transform: translateY(-2px);
         }
         
-        /* Features */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-        
-        .feature-card {
+        /* Courses Section */
+        .courses-section {
             background: white;
+            border-radius: 20px;
             padding: 2rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .course-card {
+            background: #f8f9ff;
             border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s;
+            padding: 1.5rem;
+            transition: all 0.3s;
+            border: 2px solid transparent;
         }
         
-        .feature-card:hover {
+        .course-card:hover {
             transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 25px rgba(67, 97, 238, 0.15);
         }
         
-        .feature-icon {
+        .course-icon {
             font-size: 2.5rem;
             color: var(--primary);
             margin-bottom: 1rem;
         }
         
-        .feature-title {
+        .course-title {
             font-size: 1.3rem;
             color: var(--secondary);
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+        
+        /* Exam Simulator */
+        .exam-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+        }
+        
+        .exam-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            .exam-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .stat-card {
+            background: #f8f9ff;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid #e0e7ff;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+        
+        .exam-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--success), #00b4d8);
+            color: white;
+            padding: 1.2rem 2.5rem;
+            border-radius: 15px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(76, 201, 240, 0.4);
+            border: none;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+        
+        .exam-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(76, 201, 240, 0.6);
         }
         
         /* Footer */
         footer {
             text-align: center;
-            margin-top: 3rem;
+            margin-top: 4rem;
             padding-top: 2rem;
             border-top: 2px solid #e0e7ff;
             color: var(--secondary);
@@ -332,48 +391,54 @@
             justify-content: center;
             gap: 2rem;
             margin: 1.5rem 0;
+            flex-wrap: wrap;
         }
         
-        .footer-links a {
+        .footer-link {
             color: var(--primary);
             text-decoration: none;
             transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
-        .footer-links a:hover {
+        .footer-link:hover {
             color: var(--accent);
         }
         
-        /* Responsive */
-        @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-            
-            .logo-text {
-                font-size: 2rem;
-            }
-            
-            .ai-section {
-                padding: 1.5rem;
-            }
-            
-            .chat-messages {
-                height: 300px;
-            }
-            
-            .message {
-                max-width: 90%;
-            }
-            
-            .chat-input-container {
-                flex-direction: column;
-            }
-            
-            .send-button {
-                padding: 1rem;
-                justify-content: center;
-            }
+        .copyright {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            margin: 2rem 0;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+        
+        .progress-bar {
+            height: 12px;
+            background: #e0e7ff;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--success));
+            border-radius: 6px;
+            width: 65%;
+            transition: width 0.5s ease;
         }
     </style>
 </head>
@@ -381,49 +446,38 @@
     <div class="container">
         <header>
             <div class="logo">
-                <i class="fas fa-robot logo-icon"></i>
-                <div class="logo-text">Умный наставник</div>
+                <i class="fas fa-graduation-cap logo-icon"></i>
+                <div class="logo-text">Учебный помощник</div>
             </div>
-            <div class="tagline">AI-помощник для подготовки к ЕНТ • Проект для конкурса Informatrix</div>
+            <div class="tagline">Интерактивная платформа для подготовки к экзаменам</div>
         </header>
 
         <main>
-            <section class="ai-section">
-                <h2 class="section-title">
-                    <i class="fas fa-comments"></i>
-                    AI-Наставник для школьников
-                </h2>
-                
-                <div class="token-status">
-                    <i class="fas fa-check-circle"></i>
-                    <div class="status-text">
-                        <div class="status-label">Hugging Face API Токен подключен:</div>
-                        <div class="status-value" id="tokenDisplay">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</div>
-                    </div>
-                    <button onclick="copyToken()" class="send-button" style="padding: 0.5rem 1.5rem; font-size: 0.9rem;">
-                        <i class="fas fa-copy"></i> Копировать
-                    </button>
-                </div>
-                
-                <div class="chat-container">
+            <div class="main-content">
+                <section class="chat-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-comments"></i>
+                        Помощник по учебным предметам
+                    </h2>
+                    
                     <div class="chat-messages" id="chatMessages">
                         <div class="message ai-message">
                             <div class="message-header">
                                 <i class="fas fa-robot"></i>
-                                AI-Наставник
+                                Учебный помощник
                             </div>
                             <div class="message-content">
-                                Привет! Я ваш AI-помощник для подготовки к ЕНТ. Я могу:
+                                Здравствуйте! Я ваш цифровой помощник для подготовки к экзаменам. Я могу помочь с:
                                 <br><br>
-                                📚 <strong>Объяснять сложные темы</strong> по математике, физике, истории и другим предметам
+                                📚 <strong>Объяснением сложных тем</strong> по всем школьным предметам
                                 <br>
-                                🎯 <strong>Помогать с решением задач</strong> и показывать пошаговые решения
+                                🎯 <strong>Решением задач</strong> с пошаговыми объяснениями
                                 <br>
-                                📖 <strong>Составлять учебные планы</strong> для эффективной подготовки
+                                📖 <strong>Составлением планов</strong> для эффективной подготовки
                                 <br>
-                                ❓ <strong>Отвечать на вопросы</strong> по школьной программе 10-11 классов
+                                ❓ <strong>Ответами на вопросы</strong> по программе 10-11 классов
                                 <br><br>
-                                Задайте мне любой вопрос или выберите один из примеров ниже!
+                                Выберите один из примеров ниже или задайте свой вопрос!
                             </div>
                         </div>
                     </div>
@@ -432,7 +486,7 @@
                         <input type="text" 
                                class="chat-input" 
                                id="userInput" 
-                               placeholder="Задайте вопрос по математике, физике, истории... (например: 'Объясни теорему Пифагора')"
+                               placeholder="Задайте вопрос по любому предмету..."
                                onkeypress="if(event.key === 'Enter') sendMessage()">
                         <button class="send-button" id="sendButton" onclick="sendMessage()">
                             <i class="fas fa-paper-plane"></i> Отправить
@@ -444,87 +498,259 @@
                             <i class="fas fa-calculator"></i> Объясни теорему Пифагора
                         </button>
                         <button class="quick-question-btn" onclick="askQuickQuestion('Что такое фотосинтез и какие этапы включает?')">
-                            <i class="fas fa-leaf"></i> Что такое фотосинтез?
+                            <i class="fas fa-leaf"></i> Объясни процесс фотосинтеза
                         </button>
-                        <button class="quick-question-btn" onclick="askQuickQuestion('Кто был ханом Казахского ханства при его образовании?')">
+                        <button class="quick-question-btn" onclick="askQuickQuestion('Расскажи о периоде становления Казахского ханства')">
                             <i class="fas fa-landmark"></i> История Казахстана
                         </button>
-                        <button class="quick-question-btn" onclick="askQuickQuestion('Составь план подготовки к ЕНТ по математике на месяц')">
-                            <i class="fas fa-chart-line"></i> План подготовки к ЕНТ
-                        </button>
                     </div>
-                </div>
-            </section>
+                </section>
+                
+                <section class="courses-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-book-open"></i>
+                        Учебные курсы
+                    </h2>
+                    
+                    <div class="courses-grid">
+                        <div class="course-card">
+                            <div class="course-icon">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                            <h3 class="course-title">Математика</h3>
+                            <p>Алгебра, геометрия, математический анализ. Подготовка к экзаменам.</p>
+                            <div class="course-stats">
+                                <span><i class="fas fa-video"></i> 120 уроков</span>
+                                <span><i class="fas fa-tasks"></i> 450 задач</span>
+                            </div>
+                        </div>
+                        
+                        <div class="course-card">
+                            <div class="course-icon">
+                                <i class="fas fa-flask"></i>
+                            </div>
+                            <h3 class="course-title">Физика</h3>
+                            <p>Механика, оптика, электричество. Лабораторные работы и задачи.</p>
+                            <div class="course-stats">
+                                <span><i class="fas fa-video"></i> 85 уроков</span>
+                                <span><i class="fas fa-tasks"></i> 320 задач</span>
+                            </div>
+                        </div>
+                        
+                        <div class="course-card">
+                            <div class="course-icon">
+                                <i class="fas fa-dna"></i>
+                            </div>
+                            <h3 class="course-title">Биология</h3>
+                            <p>Ботаника, зоология, анатомия. Подготовка к тестированию.</p>
+                            <div class="course-stats">
+                                <span><i class="fas fa-video"></i> 95 уроков</span>
+                                <span><i class="fas fa-tasks"></i> 280 задач</span>
+                            </div>
+                        </div>
+                        
+                        <div class="course-card">
+                            <div class="course-icon">
+                                <i class="fas fa-globe-asia"></i>
+                            </div>
+                            <h3 class="course-title">История</h3>
+                            <p>История Казахстана, всемирная история. Даты, события, личности.</p>
+                            <div class="course-stats">
+                                <span><i class="fas fa-video"></i> 70 уроков</span>
+                                <span><i class="fas fa-tasks"></i> 210 задач</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>Общий прогресс обучения</span>
+                            <span>65%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                    </div>
+                </section>
+            </div>
             
-            <section class="features">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-brain"></i>
+            <section class="exam-section">
+                <h2 class="section-title">
+                    <i class="fas fa-clipboard-check"></i>
+                    Тренировочные тесты
+                </h2>
+                
+                <p style="margin-bottom: 1.5rem; font-size: 1.1rem;">
+                    Практикуйтесь в условиях, приближенных к реальным экзаменам. Таймер, случайные вопросы и мгновенная проверка.
+                </p>
+                
+                <div class="exam-stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="questionsCount">2,500+</div>
+                        <div class="stat-label">вопросов в базе</div>
                     </div>
-                    <h3 class="feature-title">Умный AI на Hugging Face</h3>
-                    <p>Используем современные языковые модели для точных и понятных объяснений. Работает через официальный API Hugging Face.</p>
+                    
+                    <div class="stat-card">
+                        <div class="stat-number" id="averageScore">87%</div>
+                        <div class="stat-label">средний результат</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-number" id="activeUsers">1,200+</div>
+                        <div class="stat-label">активных учеников</div>
+                    </div>
                 </div>
                 
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-graduation-cap"></i>
-                    </div>
-                    <h3 class="feature-title">Специально для ЕНТ</h3>
-                    <p>AI обучен помогать с подготовкой к ЕНТ. Знает программу 10-11 классов и типовые вопросы экзамена.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3 class="feature-title">Быстрые ответы</h3>
-                    <p>Получайте объяснения сложных тем за секунды. AI разбирает задачи по шагам и приводит примеры.</p>
+                <div style="text-align: center;">
+                    <button class="exam-button" onclick="startTest()">
+                        <i class="fas fa-play-circle"></i> Начать пробный тест
+                    </button>
+                    <p style="margin-top: 1rem; color: var(--primary);">
+                        <i class="fas fa-clock"></i> Продолжительность: 180 минут • 120 вопросов
+                    </p>
                 </div>
             </section>
         </main>
         
         <footer>
             <div class="footer-links">
-                <a href="#"><i class="fas fa-code"></i> Исходный код</a>
-                <a href="#"><i class="fas fa-book"></i> Документация</a>
-                <a href="#"><i class="fas fa-trophy"></i> Конкурс Informatrix</a>
+                <a href="#" class="footer-link">
+                    <i class="fas fa-home"></i> Главная
+                </a>
+                <a href="#" class="footer-link">
+                    <i class="fas fa-book"></i> Все курсы
+                </a>
+                <a href="#" class="footer-link">
+                    <i class="fas fa-chart-line"></i> Статистика
+                </a>
+                <a href="#" class="footer-link">
+                    <i class="fas fa-question-circle"></i> Помощь
+                </a>
+                <a href="#" class="footer-link">
+                    <i class="fas fa-envelope"></i> Контакты
+                </a>
             </div>
-            <p>© 2023 "Умный наставник" - Проект для конкурса Informatrix. Все права защищены.</p>
-            <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--primary);">
-                <i class="fas fa-shield-alt"></i> Ваш токен API хранится только в вашем браузере и не отправляется на наши серверы
-            </p>
+            
+            <div class="copyright">
+                © 2024 Учебный помощник. Все права защищены.<br>
+                Образовательная платформа для школьников.
+            </div>
         </footer>
     </div>
 
     <script>
-        // Ваш Hugging Face токен
-        const HF_TOKEN = "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";
-        
-        // Выбранная модель (можно менять)
-        const MODEL_NAME = "google/flan-t5-base";
-        // Альтернативные модели:
-        // - "microsoft/DialoGPT-small" - для диалогов
-        // - "gpt2" - для генерации текста
-        // - "deepset/roberta-base-squad2" - для вопросов-ответов
-        
         // Элементы интерфейса
         const chatMessages = document.getElementById('chatMessages');
         const userInput = document.getElementById('userInput');
         const sendButton = document.getElementById('sendButton');
         
-        // Копирование токена
-        function copyToken() {
-            navigator.clipboard.writeText(HF_TOKEN).then(() => {
-                alert('Токен скопирован в буфер обмена!');
-            });
-        }
-        
+        // База знаний с ответами
+        const knowledgeBase = {
+            // Математика
+            'пифагор': `Теорема Пифагора — фундаментальное утверждение в геометрии:
+            <br><br>
+            <strong>В прямоугольном треугольнике квадрат гипотенузы равен сумме квадратов катетов.</strong>
+            <br><br>
+            Формула: <code>c² = a² + b²</code>
+            <br><br>
+            Где:
+            <li>c — гипотенуза (сторона напротив прямого угла)</li>
+            <li>a и b — катеты (стороны, образующие прямой угол)</li>
+            <br>
+            <strong>Пример:</strong> Если катеты равны 3 и 4 см, то гипотенуза:
+            c = √(3² + 4²) = √(9 + 16) = √25 = 5 см`,
+
+            'фотосинтез': `Фотосинтез — процесс преобразования световой энергии в химическую энергию:
+            <br><br>
+            <strong>Уравнение:</strong> 6CO₂ + 6H₂O + свет → C₆H₁₂O₆ + 6O₂
+            <br><br>
+            <strong>Этапы:</strong>
+            <li>1. Световые реакции (в тилакоидах хлоропластов)</li>
+            <li>2. Темновые реакции / Цикл Кальвина (в строме)</li>
+            <br>
+            <strong>Значение:</strong>
+            <li>Производство кислорода</li>
+            <li>Создание органических веществ</li>
+            <li>Преобразование солнечной энергии</li>`,
+
+            'казахское ханство': `Казахское ханство — государственное образование казахов:
+            <br><br>
+            <strong>Основные периоды:</strong>
+            <li>1465-1718: Период становления и расцвета</li>
+            <li>1718-1822: Период жузов и ослабления</li>
+            <li>1822-1847: Ликвидация ханской власти</li>
+            <br>
+            <strong>Первые ханы:</strong> Керей и Жанибек (1465-1473)
+            <br>
+            <strong>Значение:</strong> Объединение казахских племен, формирование государственности`,
+
+            'квадратное уравнение': `Квадратное уравнение: ax² + bx + c = 0
+            <br><br>
+            <strong>Формула дискриминанта:</strong> D = b² - 4ac
+            <br><br>
+            <strong>Решение:</strong>
+            <li>Если D > 0: два корня: x₁,₂ = (-b ± √D) / (2a)</li>
+            <li>Если D = 0: один корень: x = -b / (2a)</li>
+            <li>Если D < 0: нет действительных корней</li>
+            <br>
+            <strong>Пример:</strong> x² - 5x + 6 = 0
+            <br>D = 25 - 24 = 1
+            <br>x₁ = (5 + 1)/2 = 3, x₂ = (5 - 1)/2 = 2`,
+
+            'закон ньютона': `Три закона Ньютона:
+            <br><br>
+            <strong>1. Закон инерции:</strong> Тело сохраняет состояние покоя или равномерного прямолинейного движения, пока не подействует сила.
+            <br><br>
+            <strong>2. Основной закон динамики:</strong> F = ma (Сила = масса × ускорение)
+            <br><br>
+            <strong>3. Закон действия и противодействия:</strong> Силы взаимодействия двух тел равны по модулю и противоположны по направлению.`,
+
+            'молекула воды': `Молекула воды: H₂O
+            <br><br>
+            <strong>Строение:</strong>
+            <li>Два атома водорода, один атом кислорода</li>
+            <li>Угол между связями: 104.5°</li>
+            <li>Полярная молекула</li>
+            <br>
+            <strong>Свойства:</strong>
+            <li>Универсальный растворитель</li>
+            <li>Высокая теплоемкость</li>
+            <li>Поверхностное натяжение</li>
+            <li>Аномалия плотности (лед легче воды)</li>`,
+
+            'подготовка к экзаменам': `План подготовки к экзаменам:
+            <br><br>
+            <strong>1. Организация (1-2 дня):</strong>
+            <li>Составьте расписание</li>
+            <li>Соберите все материалы</li>
+            <li>Определите слабые темы</li>
+            <br>
+            <strong>2. Изучение (2-3 недели):</strong>
+            <li>Уделяйте 2-3 часа в день</li>
+            <li>Делайте конспекты</li>
+            <li>Решайте практические задачи</li>
+            <br>
+            <strong>3. Повторение (последняя неделя):</strong>
+            <li>Повторяйте основные формулы</li>
+            <li>Решайте тесты прошлых лет</li>
+            <li>Отдыхайте и высыпайтесь</li>`,
+
+            'история казахстана': `Основные периоды истории Казахстана:
+            <br><br>
+            <strong>Древний период:</strong> Палеолит - раннее средневековье
+            <br><strong>Средневековье:</strong> Тюркские каганаты, монгольское нашествие
+            <br><strong>Казахское ханство:</strong> 1465-1847 гг.
+            <br><strong>В составе России:</strong> XVIII - начало XX вв.
+            <br><strong>Советский период:</strong> 1920-1991 гг.
+            <br><strong>Независимый Казахстан:</strong> С 1991 г.`
+        };
+
         // Быстрый вопрос
         function askQuickQuestion(question) {
             userInput.value = question;
             sendMessage();
         }
-        
+
         // Добавление сообщения в чат
         function addMessage(sender, content, isTyping = false) {
             const messageDiv = document.createElement('div');
@@ -534,7 +760,7 @@
                 messageDiv.innerHTML = `
                     <div class="message-header">
                         <i class="fas fa-robot"></i>
-                        AI-Наставник
+                        Учебный помощник
                     </div>
                     <div class="typing-indicator">
                         <div class="typing-dot"></div>
@@ -543,7 +769,7 @@
                     </div>
                 `;
             } else {
-                const senderName = sender === 'user' ? 'Вы' : 'AI-Наставник';
+                const senderName = sender === 'user' ? 'Вы' : 'Учебный помощник';
                 const senderIcon = sender === 'user' ? 'fas fa-user' : 'fas fa-robot';
                 
                 messageDiv.innerHTML = `
@@ -558,167 +784,86 @@
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
-        
-        // Форматирование ответа AI
+
+        // Форматирование ответа
         function formatResponse(text) {
             return text
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Жирный текст
-                .replace(/\n/g, '<br>') // Переносы строк
-                .replace(/### (.*?)(?:\n|$)/g, '<h4>$1</h4>') // Заголовки
-                .replace(/- (.*?)(?:\n|$)/g, '<li>$1</li>'); // Списки
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\n/g, '<br>')
+                .replace(/<code>(.*?)<\/code>/g, '<code style="background: #f0f2ff; padding: 2px 6px; border-radius: 4px; font-family: monospace;">$1</code>')
+                .replace(/- (.*?)(?:\n|$)/g, '<li>$1</li>');
         }
-        
-        // Получение демо-ответа (если API не отвечает)
-        function getDemoResponse(question) {
+
+        // Поиск ответа в базе знаний
+        function findAnswer(question) {
             const lowerQ = question.toLowerCase();
             
-            const responses = {
-                'пифагор': `Теорема Пифагора — фундаментальное утверждение в геометрии. Она гласит:
-                <br><br>
-                <strong>В прямоугольном треугольнике квадрат гипотенузы равен сумме квадратов катетов.</strong>
-                <br><br>
-                Формула: c² = a² + b²
-                <br><br>
-                Где:
-                <li>c — гипотенуза (сторона напротив прямого угла)</li>
-                <li>a и b — катеты (стороны, образующие прямой угол)</li>
-                <br>
-                Эта теорема используется для вычисления длин сторон в прямоугольных треугольниках.`,
-                
-                'фотосинтез': `Фотосинтез — процесс преобразования световой энергии в химическую энергию растениями.
-                <br><br>
-                <strong>Уравнение фотосинтеза:</strong>
-                6CO₂ + 6H₂O + световая энергия → C₆H₁₂O₆ + 6O₂
-                <br><br>
-                <strong>Основные этапы:</strong>
-                <li>1. Световые реакции (в тилакоидах)</li>
-                <li>2. Темновые реакции/Цикл Кальвина (в строме)</li>
-                <br>
-                Значение фотосинтеза: производит кислород и органические вещества.`,
-                
-                'хан казахского': `Казахское ханство было образовано в 1465 году.
-                <br><br>
-                <strong>Первые ханы:</strong>
-                <li>Керей (1465–1473)</li>
-                <li>Жанибек (1465–1473) — соправитель</li>
-                <br>
-                Они были потомками Жошы-хана, старшего сына Чингисхана. Казахское ханство объединило тюркские и монгольские племена на территории современного Казахстана.`,
-                
-                'ент математик': `План подготовки к ЕНТ по математике на месяц:
-                <br><br>
-                <strong>Неделя 1-2: Алгебра</strong>
-                <li>Уравнения и неравенства</li>
-                <li>Функции и графики</li>
-                <li>Прогрессии</li>
-                <br>
-                <strong>Неделя 3: Геометрия</strong>
-                <li>Планиметрия</li>
-                <li>Стереометрия</li>
-                <li>Векторы</li>
-                <br>
-                <strong>Неделя 4: Решение тестов</strong>
-                <li>Прошлые годы ЕНТ</li>
-                <li>Тайм-менеджмент</li>
-                <li>Разбор ошибок</li>`
-            };
-            
-            // Ищем подходящий ответ
-            for (const [key, response] of Object.entries(responses)) {
+            // Ищем ключевые слова
+            for (const [key, answer] of Object.entries(knowledgeBase)) {
                 if (lowerQ.includes(key)) {
-                    return response;
+                    return answer;
+                }
+            }
+            
+            // Если не нашли точного совпадения, ищем по частям
+            const keywords = [
+                'математик', 'алгебр', 'геометр',
+                'физик', 'хими', 'биолог',
+                'истори', 'казахстан',
+                'английск', 'язык',
+                'экзамен', 'тест', 'подготовк',
+                'задач', 'пример', 'объясн'
+            ];
+            
+            for (const keyword of keywords) {
+                if (lowerQ.includes(keyword)) {
+                    return getGeneralAnswer(keyword, question);
                 }
             }
             
             // Общий ответ
-            return `Спасибо за ваш вопрос: <strong>"${question}"</strong>
-            <br><br>
-            Для подготовки к ЕНТ по этой теме рекомендую:
-            <li>Изучить теорию в учебнике</li>
-            <li>Решать практические задачи</li>
-            <li>Пройти тесты прошлых лет</li>
-            <li>Составить конспект ключевых формул</li>
-            <br>
-            Хотите более подробное объяснение по конкретному аспекту?`;
+            return getGeneralAnswer('общий', question);
         }
-        
-        // Запрос к Hugging Face API
-        async function queryHuggingFaceAPI(question) {
-            // Показываем индикатор набора
-            addMessage('ai', '', true);
-            
-            try {
-                const response = await fetch(
-                    `https://api-inference.huggingface.co/models/${MODEL_NAME}`,
-                    {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${HF_TOKEN}`,
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            inputs: `Ты - помощник для школьников в Казахстане, готовящихся к ЕНТ. 
-                            Отвечай четко, понятно, на русском языке. 
-                            Объясняй как хороший учитель, с примерами.
-                            
-                            Вопрос ученика: ${question}
-                            
-                            Полезный и понятный ответ:`,
-                            parameters: {
-                                max_length: 500,
-                                temperature: 0.7,
-                                top_p: 0.9,
-                                do_sample: true
-                            }
-                        })
-                    }
-                );
-                
-                // Удаляем индикатор набора
-                chatMessages.removeChild(chatMessages.lastChild);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                
-                if (data.error) {
-                    console.error('API Error:', data.error);
-                    return getDemoResponse(question);
-                }
-                
-                // Извлекаем сгенерированный текст
-                let answer = data[0]?.generated_text || '';
-                
-                // Если ответ пустой, используем демо-ответ
-                if (!answer.trim()) {
-                    return getDemoResponse(question);
-                }
-                
-                // Очищаем ответ от лишнего
-                answer = answer.replace(/Полезный и понятный ответ:/, '').trim();
-                
-                return answer || getDemoResponse(question);
-                
-            } catch (error) {
-                console.error('Error querying Hugging Face:', error);
-                
-                // Удаляем индикатор набора
-                if (chatMessages.lastChild?.querySelector?.('.typing-indicator')) {
-                    chatMessages.removeChild(chatMessages.lastChild);
-                }
-                
-                // Возвращаем демо-ответ с информацией об ошибке
-                return `Извините, возникла техническая ошибка при запросе к AI. Вот полезная информация по вашему вопросу:
+
+        // Генерация общего ответа
+        function getGeneralAnswer(type, question) {
+            const responses = {
+                'математик': `По математике вопрос: "${question}"
                 <br><br>
-                ${getDemoResponse(question)}
+                <strong>Рекомендации:</strong>
+                <li>Определите тип задачи (алгебра, геометрия, анализ)</li>
+                <li>Запишите известные данные</li>
+                <li>Примените соответствующую формулу</li>
+                <li>Проверьте решение</li>
+                <br>
+                Нужна помощь с конкретной формулой или типом задач?`,
+
+                'физик': `Физический вопрос: "${question}"
                 <br><br>
-                <em>Ошибка: ${error.message}</em>`;
-            }
+                <strong>Методика решения:</strong>
+                <li>Определите физический закон</li>
+                <li>Запишите формулы</li>
+                <li>Подставьте значения</li>
+                <li>Проверьте единицы измерения</li>
+                <br>
+                Могу подробнее объяснить конкретные законы физики.`,
+
+                'общий': `Спасибо за вопрос: <strong>"${question}"</strong>
+                <br><br>
+                <strong>Как лучше изучить эту тему:</strong>
+                <li>Найдите соответствующую тему в учебнике</li>
+                <li>Составьте конспект основных понятий</li>
+                <li>Решите практические задания</li>
+                <li>Пройдите тест для проверки знаний</li>
+                <br>
+                Задайте более конкретный вопрос для подробного объяснения!`
+            };
+
+            return responses[type] || responses['общий'];
         }
-        
+
         // Отправка сообщения
-        async function sendMessage() {
+        function sendMessage() {
             const question = userInput.value.trim();
             
             if (!question) return;
@@ -731,36 +876,80 @@
             userInput.disabled = true;
             sendButton.disabled = true;
             
-            // Получаем ответ от AI
-            const aiResponse = await queryHuggingFaceAPI(question);
-            
-            // Добавляем ответ AI
-            addMessage('ai', aiResponse);
-            
-            // Включаем поле ввода
-            userInput.disabled = false;
-            sendButton.disabled = false;
-            userInput.focus();
+            // Ищем ответ
+            setTimeout(() => {
+                const answer = findAnswer(question);
+                
+                // Добавляем ответ
+                addMessage('ai', answer);
+                
+                // Включаем поле ввода
+                userInput.disabled = false;
+                sendButton.disabled = false;
+                userInput.focus();
+            }, 1000);
         }
-        
+
+        // Начать тест
+        function startTest() {
+            addMessage('ai', `Начинаем пробный тест!<br><br>
+            <strong>Инструкция:</strong>
+            <li>У вас будет 180 минут на 120 вопросов</li>
+            <li>Вопросы из разных предметов</li>
+            <li>После завершения - детальный разбор ошибок</li>
+            <li>Рекомендации по улучшению результатов</li>
+            <br>
+            В реальной версии здесь будет запущен симулятор экзамена.`);
+            
+            // Анимируем статистику
+            animateStatistics();
+        }
+
+        // Анимация статистики
+        function animateStatistics() {
+            const stats = [
+                { id: 'questionsCount', target: 2500, suffix: '+' },
+                { id: 'averageScore', target: 87, suffix: '%' },
+                { id: 'activeUsers', target: 1200, suffix: '+' }
+            ];
+            
+            stats.forEach(stat => {
+                const element = document.getElementById(stat.id);
+                let current = 0;
+                const increment = stat.target / 50;
+                
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= stat.target) {
+                        current = stat.target;
+                        clearInterval(timer);
+                    }
+                    element.textContent = Math.floor(current) + stat.suffix;
+                }, 30);
+            });
+        }
+
         // Отправка по Enter
         userInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 sendMessage();
             }
         });
-        
+
         // Автофокус на поле ввода
         window.addEventListener('load', function() {
             userInput.focus();
+            
+            // Запускаем анимацию статистики при загрузке
+            setTimeout(animateStatistics, 1000);
         });
-        
-        // Пример приветствия
+
+        // Пример сообщения при загрузке
         setTimeout(() => {
             if (chatMessages.children.length === 1) {
-                addMessage('ai', `✅ <strong>Готов к работе!</strong> Ваш Hugging Face токен успешно подключен к модели "${MODEL_NAME}". Задавайте вопросы по школьной программе!`);
+                addMessage('ai', `✅ <strong>Система готова к работе!</strong> Вы можете задавать вопросы по любым школьным предметам или начать тренировочный тест.`);
             }
-        }, 2000);
+        }, 1500);
     </script>
 </body>
 </html>
