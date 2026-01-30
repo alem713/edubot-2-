@@ -3,23 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduBot - Твой ИИ помощник</title>
-    <link rel="stylesheet" href="style.css"> 
-</head>
+    <title>EduBot - Платформа для школьников</title>
+    <link rel="stylesheet" href="style.css"> </head>
 <body>
-    <header>
-        <h1>EduBot AI</h1>
-        <p>Интеллектуальная помощь школьникам</p>
-    </header>
+    <nav>
+        <div class="logo">EduBot AI</div>
+        <ul class="nav-links">
+            <li><a href="#courses">Курсы</a></li>
+            <li><a href="#ent">ЕНТ</a></li>
+            <li><a href="#ai">AI Помощник</a></li>
+            <li><a href="#calc">Калькулятор</a></li>
+            <li id="auth-section"><button onclick="openAuth()">Войти</button></li>
+        </ul>
+    </nav>
 
     <main>
-        <div id="chat-container">
+        <section id="user-profile" style="display:none;">
+            <h2>Привет, <span id="username">Ученик</span>!</h2>
+            <p>Твой прогресс: <span id="progress">0%</span></p>
+        </section>
+
+        <section id="ai" class="card">
+            <h3>🤖 ИИ Учитель</h3>
             <div id="chat-window"></div>
-            <input type="text" id="user-input" placeholder="Задай вопрос ИИ...">
-            <button id="send-btn">Отправить</button>
-        </div>
+            <input type="text" id="ai-input" placeholder="Спроси о физике или математике...">
+            <button onclick="askAI()">Спросить</button>
+        </section>
+
+        <section id="calc" class="card">
+            <h3>🧮 Быстрый расчет</h3>
+            <input type="text" id="calc-display" readonly>
+            <div class="calc-buttons">
+                <button onclick="addToCalc('1')">1</button>
+                <button onclick="addToCalc('+')">+</button>
+                <button onclick="calculateResult()">=</button>
+                <button onclick="clearCalc()">C</button>
+            </div>
+        </section>
     </main>
 
-    <script src="script.js"></script>
-</body>
+    <script src="script.js"></script> </body>
 </html>
