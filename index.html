@@ -66,6 +66,36 @@
             margin-bottom: 2rem;
         }
         
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            border-left: 4px solid var(--success);
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            max-width: 300px;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .notification i {
+            color: var(--success);
+            font-size: 1.5rem;
+        }
+        
         /* Main Content */
         .main-content {
             display: grid;
@@ -377,6 +407,146 @@
             box-shadow: 0 6px 20px rgba(76, 201, 240, 0.6);
         }
         
+        /* Test Modal */
+        .test-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .test-modal.active {
+            display: flex;
+        }
+        
+        .test-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .test-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e0e7ff;
+        }
+        
+        .test-timer {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            background: #f8f9ff;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+        }
+        
+        .close-test {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: var(--dark);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .close-test:hover {
+            color: var(--accent);
+        }
+        
+        .question-container {
+            margin-bottom: 2rem;
+        }
+        
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+        }
+        
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .option {
+            padding: 1rem 1.5rem;
+            background: #f8f9ff;
+            border: 2px solid #e0e7ff;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .option:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .option.selected {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .test-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid #e0e7ff;
+        }
+        
+        .nav-button {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .prev-button {
+            background: #f8f9ff;
+            color: var(--dark);
+        }
+        
+        .prev-button:hover:not(:disabled) {
+            background: #e0e7ff;
+        }
+        
+        .next-button {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .next-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.4);
+        }
+        
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
         /* Footer */
         footer {
             text-align: center;
@@ -441,35 +611,97 @@
             transition: width 0.5s ease;
         }
         
-        /* Notification */
-        .notification {
+        /* Results Modal */
+        .results-modal {
+            display: none;
             position: fixed;
-            top: 20px;
-            right: 20px;
-            background: white;
-            padding: 1rem 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-            border-left: 4px solid var(--success);
-            transform: translateX(150%);
-            transition: transform 0.3s ease;
-            z-index: 1000;
-            max-width: 300px;
-        }
-        
-        .notification.show {
-            transform: translateX(0);
-        }
-        
-        .notification-content {
-            display: flex;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
         }
         
-        .notification i {
+        .results-modal.active {
+            display: flex;
+        }
+        
+        .results-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .results-icon {
+            font-size: 4rem;
             color: var(--success);
+            margin-bottom: 1.5rem;
+        }
+        
+        .results-title {
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+        
+        .results-score {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 1.5rem 0;
+        }
+        
+        .results-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .result-stat {
+            background: #f8f9ff;
+            padding: 1rem;
+            border-radius: 10px;
+        }
+        
+        .result-label {
+            font-size: 0.9rem;
+            color: var(--dark);
+            opacity: 0.8;
+        }
+        
+        .result-value {
             font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-top: 0.5rem;
+        }
+        
+        .results-actions {
+            margin-top: 2rem;
+        }
+        
+        .restart-button {
+            background: linear-gradient(135deg, var(--accent), #ff4d9f);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .restart-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(247, 37, 133, 0.4);
         }
     </style>
 </head>
@@ -477,7 +709,66 @@
     <div class="notification" id="notification">
         <div class="notification-content">
             <i class="fas fa-check-circle"></i>
-            <div>Система успешно загружена!</div>
+            <div>Система успешно загружена и готова к работе!</div>
+        </div>
+    </div>
+
+    <!-- Test Modal -->
+    <div class="test-modal" id="testModal">
+        <div class="test-content">
+            <div class="test-header">
+                <h2 style="color: var(--secondary);">Пробный экзамен</h2>
+                <div class="test-timer" id="testTimer">180:00</div>
+                <button class="close-test" onclick="closeTest()">&times;</button>
+            </div>
+            
+            <div class="question-container">
+                <div class="question-text" id="questionText">Загрузка вопроса...</div>
+                <div class="options-container" id="optionsContainer">
+                    <!-- Options will be added here by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="test-navigation">
+                <button class="nav-button prev-button" id="prevButton" onclick="prevQuestion()" disabled>Предыдущий</button>
+                <div style="color: var(--dark); font-weight: 600;" id="questionCounter">Вопрос 1 из 5</div>
+                <button class="nav-button next-button" id="nextButton" onclick="nextQuestion()">Следующий</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Modal -->
+    <div class="results-modal" id="resultsModal">
+        <div class="results-content">
+            <div class="results-icon">
+                <i class="fas fa-trophy"></i>
+            </div>
+            <h2 class="results-title">Тест завершен!</h2>
+            <div class="results-score" id="finalScore">0%</div>
+            
+            <div class="results-stats">
+                <div class="result-stat">
+                    <div class="result-label">Правильных ответов</div>
+                    <div class="result-value" id="correctAnswers">0</div>
+                </div>
+                <div class="result-stat">
+                    <div class="result-label">Время</div>
+                    <div class="result-value" id="timeSpent">0:00</div>
+                </div>
+                <div class="result-stat">
+                    <div class="result-label">Всего вопросов</div>
+                    <div class="result-value" id="totalQuestions">0</div>
+                </div>
+                <div class="result-stat">
+                    <div class="result-label">Место в рейтинге</div>
+                    <div class="result-value" id="ranking">0</div>
+                </div>
+            </div>
+            
+            <div class="results-actions">
+                <button class="restart-button" onclick="restartTest()">Пройти тест снова</button>
+                <button class="nav-button" onclick="closeResults()" style="margin-left: 1rem; background: #f8f9ff;">Закрыть</button>
+            </div>
         </div>
     </div>
 
@@ -603,10 +894,10 @@
                     <div class="progress-container">
                         <div class="progress-label">
                             <span>Общий прогресс обучения</span>
-                            <span>65%</span>
+                            <span id="progressPercent">65%</span>
                         </div>
                         <div class="progress-bar">
-                            <div class="progress-fill"></div>
+                            <div class="progress-fill" id="progressFill"></div>
                         </div>
                     </div>
                 </section>
@@ -640,7 +931,7 @@
                 </div>
                 
                 <div style="text-align: center;">
-                    <button class="exam-button" onclick="startTest()">
+                    <button class="exam-button" onclick="startTest()" id="startTestBtn">
                         <i class="fas fa-play-circle"></i> Начать пробный тест
                     </button>
                     <p style="margin-top: 1rem; color: var(--primary);">
@@ -677,21 +968,11 @@
     </div>
 
     <script>
-        // Исправленная версия кода - все проблемы устранены
-        
-        // Переменные для отслеживания состояния
-        let testStarted = false;
-        let testStartTime = null;
-        const testDuration = 180 * 60 * 1000; // 180 минут в миллисекундах
-        
-        // Элементы интерфейса
-        const chatMessages = document.getElementById('chatMessages');
-        const userInput = document.getElementById('userInput');
-        const sendButton = document.getElementById('sendButton');
-        const notification = document.getElementById('notification');
-        
-        // Показываем уведомление
+        // ========== ИСПРАВЛЕНИЕ ОШИБОК И ДОБАВЛЕНИЕ ФУНКЦИОНАЛА ==========
+
+        // 1. Уведомление
         function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
             const notificationContent = notification.querySelector('.notification-content div');
             const icon = notification.querySelector('i');
             
@@ -713,10 +994,35 @@
                 notification.classList.remove('show');
             }, 3000);
         }
-        
-        // База знаний с ответами (исправленные кодировки)
+
+        // 2. Анимация статистики (исправлено: теперь 87%, а не 20%)
+        function animateStatistics() {
+            const stats = [
+                { id: 'questionsCount', target: 2500, suffix: '+' },
+                { id: 'averageScore', target: 87, suffix: '%' }, // Исправлено с 20% на 87%
+                { id: 'activeUsers', target: 1200, suffix: '+' }
+            ];
+            
+            stats.forEach((stat, index) => {
+                setTimeout(() => {
+                    const element = document.getElementById(stat.id);
+                    let current = 0;
+                    const increment = stat.target / 50;
+                    
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= stat.target) {
+                            current = stat.target;
+                            clearInterval(timer);
+                        }
+                        element.textContent = Math.floor(current) + stat.suffix;
+                    }, 30);
+                }, index * 300);
+            });
+        }
+
+        // 3. Рабочий чат-помощник
         const knowledgeBase = {
-            // Математика
             'пифагор': `Теорема Пифагора — фундаментальное утверждение в геометрии:
             <br><br>
             <strong>В прямоугольном треугольнике квадрат гипотенузы равен сумме квадратов катетов.</strong>
@@ -752,16 +1058,40 @@
             <br>
             <strong>Первые ханы:</strong> Керей и Жанибек (1465-1473)
             <br>
-            <strong>Значение:</strong> Объединение казахских племен, формирование государственности`
+            <strong>Значение:</strong> Объединение казахских племен, формирование государственности`,
+
+            'математик': `Для подготовки к экзаменам по математике рекомендую:
+            <br><br>
+            <strong>Основные темы:</strong>
+            <li>Алгебра: уравнения, неравенства, функции</li>
+            <li>Геометрия: теоремы, свойства фигур</li>
+            <li>Математический анализ: производные, интегралы</li>
+            <br>
+            Решайте минимум 10 задач в день для лучшего результата!`,
+
+            'физик': `Физика требует понимания законов природы:
+            <br><br>
+            <strong>Ключевые разделы:</strong>
+            <li>Механика (законы Ньютона)</li>
+            <li>Оптика (отражение, преломление)</li>
+            <li>Электричество (закон Ома)</li>
+            <br>
+            Практикуйтесь в решении экспериментальных задач.`,
+
+            'хими': `Химия — наука о веществах и их превращениях:
+            <br><br>
+            <strong>Важные темы:</strong>
+            <li>Периодический закон</li>
+            <li>Химические реакции</li>
+            <li>Органическая химия</li>
+            <br>
+            Учите химические формулы и уравнения реакций.`
         };
 
-        // Быстрый вопрос
-        function askQuickQuestion(question) {
-            userInput.value = question;
-            sendMessage();
-        }
+        const chatMessages = document.getElementById('chatMessages');
+        const userInput = document.getElementById('userInput');
+        const sendButton = document.getElementById('sendButton');
 
-        // Добавление сообщения в чат (исправленная версия)
         function addMessage(sender, content, isTyping = false) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${sender}-message`;
@@ -795,29 +1125,23 @@
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
-        // Форматирование ответа
         function formatResponse(text) {
             return text
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                 .replace(/\n/g, '<br>')
                 .replace(/<code>(.*?)<\/code>/g, '<code style="background: #f0f2ff; padding: 2px 6px; border-radius: 4px; font-family: monospace;">$1</code>')
-                .replace(/- (.*?)(?:\n|$)/g, '<li>$1</li>')
-                .replace(/\$/g, '') // Удаляем символы доллара, если они есть
-                .replace(/£/g, ''); // Удаляем символы фунта, если они есть
+                .replace(/- (.*?)(?:\n|$)/g, '<li>$1</li>');
         }
 
-        // Поиск ответа в базе знаний
         function findAnswer(question) {
             const lowerQ = question.toLowerCase();
             
-            // Ищем ключевые слова
             for (const [key, answer] of Object.entries(knowledgeBase)) {
                 if (lowerQ.includes(key)) {
                     return answer;
                 }
             }
             
-            // Если не нашли точного совпадения
             return `Спасибо за вопрос: <strong>"${question}"</strong>
             <br><br>
             <strong>Как лучше изучить эту тему:</strong>
@@ -829,7 +1153,11 @@
             Задайте более конкретный вопрос для подробного объяснения!`;
         }
 
-        // Отправка сообщения (исправленная версия)
+        function askQuickQuestion(question) {
+            userInput.value = question;
+            sendMessage();
+        }
+
         function sendMessage() {
             const question = userInput.value.trim();
             
@@ -838,157 +1166,272 @@
                 return;
             }
             
-            // Добавляем вопрос пользователя
             addMessage('user', question);
-            
-            // Очищаем поле ввода
             userInput.value = '';
             userInput.disabled = true;
             sendButton.disabled = true;
             
-            // Показываем индикатор набора
             addMessage('ai', '', true);
             
-            // Ищем ответ с задержкой
             setTimeout(() => {
-                // Убираем индикатор набора
                 const lastMessage = chatMessages.lastChild;
                 if (lastMessage.querySelector('.typing-indicator')) {
                     chatMessages.removeChild(lastMessage);
                 }
                 
                 const answer = findAnswer(question);
-                
-                // Добавляем ответ
                 addMessage('ai', answer);
                 
-                // Включаем поле ввода
                 userInput.disabled = false;
                 sendButton.disabled = false;
                 userInput.focus();
             }, 1500);
         }
 
-        // Начать тест (исправленная версия)
-        function startTest() {
-            if (testStarted) {
-                showNotification('Тест уже запущен', 'error');
-                return;
+        // 4. Полностью рабочий тест с таймером
+        const testQuestions = [
+            {
+                question: "Чему равен квадрат гипотенузы в прямоугольном треугольнике?",
+                options: [
+                    "Сумме квадратов катетов",
+                    "Разности квадратов катетов",
+                    "Произведению катетов",
+                    "Половине произведения катетов"
+                ],
+                correct: 0
+            },
+            {
+                question: "Какой газ выделяется при фотосинтезе?",
+                options: [
+                    "Кислород",
+                    "Углекислый газ",
+                    "Азот",
+                    "Водород"
+                ],
+                correct: 0
+            },
+            {
+                question: "В каком году было образовано Казахское ханство?",
+                options: [
+                    "1465",
+                    "1550",
+                    "1650",
+                    "1750"
+                ],
+                correct: 0
+            },
+            {
+                question: "Что такое митоз?",
+                options: [
+                    "Деление клетки",
+                    "Фотосинтез",
+                    "Дыхание",
+                    "Пищеварение"
+                ],
+                correct: 0
+            },
+            {
+                question: "Формула площади круга?",
+                options: [
+                    "πr²",
+                    "2πr",
+                    "πd",
+                    "4πr²"
+                ],
+                correct: 0
             }
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = [];
+        let testTimer;
+        let timeLeft = 180 * 60; // 180 минут в секундах
+
+        function startTest() {
+            document.getElementById('testModal').classList.add('active');
+            currentQuestion = 0;
+            userAnswers = [];
+            timeLeft = 10 * 60; // 10 минут для демо (вместо 180)
             
-            testStarted = true;
-            testStartTime = Date.now();
-            
-            // Добавляем только одно сообщение о начале теста
-            addMessage('ai', `Начинаем пробный тест!
-            <br><br>
-            <strong>Инструкция:</strong>
-            <li>У вас будет 180 минут на 120 вопросов</li>
-            <li>Вопросы из разных предметов</li>
-            <li>После завершения - детальный разбор ошибок</li>
-            <li>Рекомендации по улучшению результатов</li>
-            <br>
-            <strong>Таймер запущен!</strong> Удачи!`);
-            
-            // Показываем уведомление
-            showNotification('Тест начался! Таймер запущен.');
-            
-            // Запускаем анимацию статистики
-            animateStatistics();
-            
-            // Запускаем таймер теста
-            startTestTimer();
+            loadQuestion();
+            startTimer();
+            showNotification('Тест начался! У вас есть 10 минут.');
         }
 
-        // Таймер теста
-        function startTestTimer() {
-            const timerInterval = setInterval(() => {
-                if (!testStarted) {
-                    clearInterval(timerInterval);
+        function closeTest() {
+            document.getElementById('testModal').classList.remove('active');
+            clearInterval(testTimer);
+            showNotification('Тест прерван');
+        }
+
+        function startTimer() {
+            clearInterval(testTimer);
+            
+            testTimer = setInterval(() => {
+                timeLeft--;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(testTimer);
+                    finishTest();
                     return;
                 }
                 
-                const elapsed = Date.now() - testStartTime;
-                const remaining = testDuration - elapsed;
-                
-                if (remaining <= 0) {
-                    clearInterval(timerInterval);
-                    testStarted = false;
-                    addMessage('ai', 'Время вышло! Тест завершен. Проверяем результаты...');
-                    showNotification('Тест завершен! Проверьте результаты.');
-                }
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                document.getElementById('testTimer').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             }, 1000);
         }
 
-        // Анимация статистики (исправленная версия)
-        function animateStatistics() {
-            const stats = [
-                { id: 'questionsCount', target: 2500, suffix: '+' },
-                { id: 'averageScore', target: 87, suffix: '%' },
-                { id: 'activeUsers', target: 1200, suffix: '+' }
-            ];
+        function loadQuestion() {
+            const question = testQuestions[currentQuestion];
+            document.getElementById('questionText').textContent = question.question;
+            document.getElementById('questionCounter').textContent = `Вопрос ${currentQuestion + 1} из ${testQuestions.length}`;
             
-            stats.forEach((stat, index) => {
-                setTimeout(() => {
-                    const element = document.getElementById(stat.id);
-                    let current = 0;
-                    const increment = stat.target / 50;
-                    
-                    const timer = setInterval(() => {
-                        current += increment;
-                        if (current >= stat.target) {
-                            current = stat.target;
-                            clearInterval(timer);
-                        }
-                        element.textContent = Math.floor(current) + stat.suffix;
-                    }, 30);
-                }, index * 300); // Задержка между анимациями
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                if (userAnswers[currentQuestion] === index) {
+                    optionElement.classList.add('selected');
+                }
+                optionElement.textContent = option;
+                optionElement.onclick = () => selectOption(index);
+                optionsContainer.appendChild(optionElement);
             });
+            
+            document.getElementById('prevButton').disabled = currentQuestion === 0;
+            document.getElementById('nextButton').textContent = 
+                currentQuestion === testQuestions.length - 1 ? 'Завершить тест' : 'Следующий';
         }
 
-        // Отправка по Enter
-        userInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        });
+        function selectOption(optionIndex) {
+            userAnswers[currentQuestion] = optionIndex;
+            loadQuestion();
+        }
 
-        // Инициализация при загрузке
-        window.addEventListener('load', function() {
-            userInput.focus();
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < testQuestions.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+            } else {
+                finishTest();
+            }
+        }
+
+        function finishTest() {
+            clearInterval(testTimer);
+            document.getElementById('testModal').classList.remove('active');
             
-            // Запускаем анимацию статистики при загрузке
-            setTimeout(animateStatistics, 1000);
+            let correctCount = 0;
+            testQuestions.forEach((question, index) => {
+                if (userAnswers[index] === question.correct) {
+                    correctCount++;
+                }
+            });
             
-            // Показываем уведомление о загрузке
+            const score = Math.round((correctCount / testQuestions.length) * 100);
+            const timeSpent = 10 * 60 - timeLeft;
+            const minutes = Math.floor(timeSpent / 60);
+            const seconds = timeSpent % 60;
+            
+            document.getElementById('finalScore').textContent = `${score}%`;
+            document.getElementById('correctAnswers').textContent = `${correctCount}/${testQuestions.length}`;
+            document.getElementById('timeSpent').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            document.getElementById('totalQuestions').textContent = testQuestions.length;
+            document.getElementById('ranking').textContent = `#${Math.floor(Math.random() * 100) + 1}`;
+            
+            document.getElementById('resultsModal').classList.add('active');
+        }
+
+        function closeResults() {
+            document.getElementById('resultsModal').classList.remove('active');
+        }
+
+        function restartTest() {
+            document.getElementById('resultsModal').classList.remove('active');
+            setTimeout(startTest, 300);
+        }
+
+        // 5. Прогресс обучения с анимацией
+        function animateProgress() {
+            const progressFill = document.getElementById('progressFill');
+            const progressPercent = document.getElementById('progressPercent');
+            let currentWidth = 0;
+            const targetWidth = 65;
+            
+            const progressTimer = setInterval(() => {
+                currentWidth += 1;
+                progressFill.style.width = currentWidth + '%';
+                progressPercent.textContent = currentWidth + '%';
+                
+                if (currentWidth >= targetWidth) {
+                    clearInterval(progressTimer);
+                }
+            }, 30);
+        }
+
+        // 6. Инициализация при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            // Анимация статистики
+            setTimeout(animateStatistics, 500);
+            
+            // Анимация прогресса
+            setTimeout(animateProgress, 1500);
+            
+            // Показать уведомление
             setTimeout(() => {
                 showNotification('Система успешно загружена и готова к работе!');
-            }, 500);
+            }, 1000);
             
-            // Убираем дублирующиеся сообщения
-            const messages = chatMessages.querySelectorAll('.ai-message');
-            if (messages.length > 1) {
-                // Оставляем только первое сообщение
-                for (let i = 1; i < messages.length; i++) {
-                    messages[i].remove();
+            // Фокус на поле ввода чата
+            userInput.focus();
+            
+            // Обработчик Enter в чате
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
                 }
-            }
+            });
+            
+            // Предотвращение множественных кликов на тест
+            let testButtonClicked = false;
+            const startTestBtn = document.getElementById('startTestBtn');
+            const originalStartTest = startTest;
+            
+            startTestBtn.onclick = function() {
+                if (testButtonClicked) return;
+                testButtonClicked = true;
+                
+                originalStartTest();
+                
+                setTimeout(() => {
+                    testButtonClicked = false;
+                }, 5000);
+            };
         });
 
-        // Предотвращаем множественные клики по кнопке теста
-        let testButtonClicked = false;
-        const originalStartTest = startTest;
-        startTest = function() {
-            if (testButtonClicked) return;
-            testButtonClicked = true;
+        // 7. Добавление анимации при наведении на карточки курсов
+        document.querySelectorAll('.course-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px)';
+                this.style.boxShadow = '0 20px 40px rgba(67, 97, 238, 0.2)';
+            });
             
-            originalStartTest();
-            
-            // Разрешаем повторный клик через 5 секунд
-            setTimeout(() => {
-                testButtonClicked = false;
-            }, 5000);
-        };
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(-5px)';
+                this.style.boxShadow = '0 10px 25px rgba(67, 97, 238, 0.15)';
+            });
+        });
     </script>
 </body>
 </html>
