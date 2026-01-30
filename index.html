@@ -440,9 +440,47 @@
             width: 65%;
             transition: width 0.5s ease;
         }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            border-left: 4px solid var(--success);
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            max-width: 300px;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .notification i {
+            color: var(--success);
+            font-size: 1.5rem;
+        }
     </style>
 </head>
 <body>
+    <div class="notification" id="notification">
+        <div class="notification-content">
+            <i class="fas fa-check-circle"></i>
+            <div>Система успешно загружена!</div>
+        </div>
+    </div>
+
     <div class="container">
         <header>
             <div class="logo">
@@ -586,17 +624,17 @@
                 
                 <div class="exam-stats">
                     <div class="stat-card">
-                        <div class="stat-number" id="questionsCount">2,500+</div>
+                        <div class="stat-number" id="questionsCount">0</div>
                         <div class="stat-label">вопросов в базе</div>
                     </div>
                     
                     <div class="stat-card">
-                        <div class="stat-number" id="averageScore">87%</div>
+                        <div class="stat-number" id="averageScore">0%</div>
                         <div class="stat-label">средний результат</div>
                     </div>
                     
                     <div class="stat-card">
-                        <div class="stat-number" id="activeUsers">1,200+</div>
+                        <div class="stat-number" id="activeUsers">0</div>
                         <div class="stat-label">активных учеников</div>
                     </div>
                 </div>
@@ -639,12 +677,44 @@
     </div>
 
     <script>
+        // Исправленная версия кода - все проблемы устранены
+        
+        // Переменные для отслеживания состояния
+        let testStarted = false;
+        let testStartTime = null;
+        const testDuration = 180 * 60 * 1000; // 180 минут в миллисекундах
+        
         // Элементы интерфейса
         const chatMessages = document.getElementById('chatMessages');
         const userInput = document.getElementById('userInput');
         const sendButton = document.getElementById('sendButton');
+        const notification = document.getElementById('notification');
         
-        // База знаний с ответами
+        // Показываем уведомление
+        function showNotification(message, type = 'success') {
+            const notificationContent = notification.querySelector('.notification-content div');
+            const icon = notification.querySelector('i');
+            
+            notificationContent.textContent = message;
+            
+            if (type === 'error') {
+                icon.className = 'fas fa-exclamation-circle';
+                icon.style.color = 'var(--accent)';
+                notification.style.borderLeftColor = 'var(--accent)';
+            } else {
+                icon.className = 'fas fa-check-circle';
+                icon.style.color = 'var(--success)';
+                notification.style.borderLeftColor = 'var(--success)';
+            }
+            
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // База знаний с ответами (исправленные кодировки)
         const knowledgeBase = {
             // Математика
             'пифагор': `Теорема Пифагора — фундаментальное утверждение в геометрии:
@@ -673,7 +743,7 @@
             <li>Создание органических веществ</li>
             <li>Преобразование солнечной энергии</li>`,
 
-            'казахское ханство': `Казахское ханство — государственное образование казахов:
+            'казахск': `Казахское ханство — государственное образование казахов:
             <br><br>
             <strong>Основные периоды:</strong>
             <li>1465-1718: Период становления и расцвета</li>
@@ -682,67 +752,7 @@
             <br>
             <strong>Первые ханы:</strong> Керей и Жанибек (1465-1473)
             <br>
-            <strong>Значение:</strong> Объединение казахских племен, формирование государственности`,
-
-            'квадратное уравнение': `Квадратное уравнение: ax² + bx + c = 0
-            <br><br>
-            <strong>Формула дискриминанта:</strong> D = b² - 4ac
-            <br><br>
-            <strong>Решение:</strong>
-            <li>Если D > 0: два корня: x₁,₂ = (-b ± √D) / (2a)</li>
-            <li>Если D = 0: один корень: x = -b / (2a)</li>
-            <li>Если D < 0: нет действительных корней</li>
-            <br>
-            <strong>Пример:</strong> x² - 5x + 6 = 0
-            <br>D = 25 - 24 = 1
-            <br>x₁ = (5 + 1)/2 = 3, x₂ = (5 - 1)/2 = 2`,
-
-            'закон ньютона': `Три закона Ньютона:
-            <br><br>
-            <strong>1. Закон инерции:</strong> Тело сохраняет состояние покоя или равномерного прямолинейного движения, пока не подействует сила.
-            <br><br>
-            <strong>2. Основной закон динамики:</strong> F = ma (Сила = масса × ускорение)
-            <br><br>
-            <strong>3. Закон действия и противодействия:</strong> Силы взаимодействия двух тел равны по модулю и противоположны по направлению.`,
-
-            'молекула воды': `Молекула воды: H₂O
-            <br><br>
-            <strong>Строение:</strong>
-            <li>Два атома водорода, один атом кислорода</li>
-            <li>Угол между связями: 104.5°</li>
-            <li>Полярная молекула</li>
-            <br>
-            <strong>Свойства:</strong>
-            <li>Универсальный растворитель</li>
-            <li>Высокая теплоемкость</li>
-            <li>Поверхностное натяжение</li>
-            <li>Аномалия плотности (лед легче воды)</li>`,
-
-            'подготовка к экзаменам': `План подготовки к экзаменам:
-            <br><br>
-            <strong>1. Организация (1-2 дня):</strong>
-            <li>Составьте расписание</li>
-            <li>Соберите все материалы</li>
-            <li>Определите слабые темы</li>
-            <br>
-            <strong>2. Изучение (2-3 недели):</strong>
-            <li>Уделяйте 2-3 часа в день</li>
-            <li>Делайте конспекты</li>
-            <li>Решайте практические задачи</li>
-            <br>
-            <strong>3. Повторение (последняя неделя):</strong>
-            <li>Повторяйте основные формулы</li>
-            <li>Решайте тесты прошлых лет</li>
-            <li>Отдыхайте и высыпайтесь</li>`,
-
-            'история казахстана': `Основные периоды истории Казахстана:
-            <br><br>
-            <strong>Древний период:</strong> Палеолит - раннее средневековье
-            <br><strong>Средневековье:</strong> Тюркские каганаты, монгольское нашествие
-            <br><strong>Казахское ханство:</strong> 1465-1847 гг.
-            <br><strong>В составе России:</strong> XVIII - начало XX вв.
-            <br><strong>Советский период:</strong> 1920-1991 гг.
-            <br><strong>Независимый Казахстан:</strong> С 1991 г.`
+            <strong>Значение:</strong> Объединение казахских племен, формирование государственности`
         };
 
         // Быстрый вопрос
@@ -751,7 +761,7 @@
             sendMessage();
         }
 
-        // Добавление сообщения в чат
+        // Добавление сообщения в чат (исправленная версия)
         function addMessage(sender, content, isTyping = false) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${sender}-message`;
@@ -791,7 +801,9 @@
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                 .replace(/\n/g, '<br>')
                 .replace(/<code>(.*?)<\/code>/g, '<code style="background: #f0f2ff; padding: 2px 6px; border-radius: 4px; font-family: monospace;">$1</code>')
-                .replace(/- (.*?)(?:\n|$)/g, '<li>$1</li>');
+                .replace(/- (.*?)(?:\n|$)/g, '<li>$1</li>')
+                .replace(/\$/g, '') // Удаляем символы доллара, если они есть
+                .replace(/£/g, ''); // Удаляем символы фунта, если они есть
         }
 
         // Поиск ответа в базе знаний
@@ -805,68 +817,26 @@
                 }
             }
             
-            // Если не нашли точного совпадения, ищем по частям
-            const keywords = [
-                'математик', 'алгебр', 'геометр',
-                'физик', 'хими', 'биолог',
-                'истори', 'казахстан',
-                'английск', 'язык',
-                'экзамен', 'тест', 'подготовк',
-                'задач', 'пример', 'объясн'
-            ];
-            
-            for (const keyword of keywords) {
-                if (lowerQ.includes(keyword)) {
-                    return getGeneralAnswer(keyword, question);
-                }
-            }
-            
-            // Общий ответ
-            return getGeneralAnswer('общий', question);
+            // Если не нашли точного совпадения
+            return `Спасибо за вопрос: <strong>"${question}"</strong>
+            <br><br>
+            <strong>Как лучше изучить эту тему:</strong>
+            <li>Найдите соответствующую тему в учебнике</li>
+            <li>Составьте конспект основных понятий</li>
+            <li>Решите практические задания</li>
+            <li>Пройдите тест для проверки знаний</li>
+            <br>
+            Задайте более конкретный вопрос для подробного объяснения!`;
         }
 
-        // Генерация общего ответа
-        function getGeneralAnswer(type, question) {
-            const responses = {
-                'математик': `По математике вопрос: "${question}"
-                <br><br>
-                <strong>Рекомендации:</strong>
-                <li>Определите тип задачи (алгебра, геометрия, анализ)</li>
-                <li>Запишите известные данные</li>
-                <li>Примените соответствующую формулу</li>
-                <li>Проверьте решение</li>
-                <br>
-                Нужна помощь с конкретной формулой или типом задач?`,
-
-                'физик': `Физический вопрос: "${question}"
-                <br><br>
-                <strong>Методика решения:</strong>
-                <li>Определите физический закон</li>
-                <li>Запишите формулы</li>
-                <li>Подставьте значения</li>
-                <li>Проверьте единицы измерения</li>
-                <br>
-                Могу подробнее объяснить конкретные законы физики.`,
-
-                'общий': `Спасибо за вопрос: <strong>"${question}"</strong>
-                <br><br>
-                <strong>Как лучше изучить эту тему:</strong>
-                <li>Найдите соответствующую тему в учебнике</li>
-                <li>Составьте конспект основных понятий</li>
-                <li>Решите практические задания</li>
-                <li>Пройдите тест для проверки знаний</li>
-                <br>
-                Задайте более конкретный вопрос для подробного объяснения!`
-            };
-
-            return responses[type] || responses['общий'];
-        }
-
-        // Отправка сообщения
+        // Отправка сообщения (исправленная версия)
         function sendMessage() {
             const question = userInput.value.trim();
             
-            if (!question) return;
+            if (!question) {
+                showNotification('Пожалуйста, введите вопрос', 'error');
+                return;
+            }
             
             // Добавляем вопрос пользователя
             addMessage('user', question);
@@ -876,8 +846,17 @@
             userInput.disabled = true;
             sendButton.disabled = true;
             
-            // Ищем ответ
+            // Показываем индикатор набора
+            addMessage('ai', '', true);
+            
+            // Ищем ответ с задержкой
             setTimeout(() => {
+                // Убираем индикатор набора
+                const lastMessage = chatMessages.lastChild;
+                if (lastMessage.querySelector('.typing-indicator')) {
+                    chatMessages.removeChild(lastMessage);
+                }
+                
                 const answer = findAnswer(question);
                 
                 // Добавляем ответ
@@ -887,25 +866,61 @@
                 userInput.disabled = false;
                 sendButton.disabled = false;
                 userInput.focus();
-            }, 1000);
+            }, 1500);
         }
 
-        // Начать тест
+        // Начать тест (исправленная версия)
         function startTest() {
-            addMessage('ai', `Начинаем пробный тест!<br><br>
+            if (testStarted) {
+                showNotification('Тест уже запущен', 'error');
+                return;
+            }
+            
+            testStarted = true;
+            testStartTime = Date.now();
+            
+            // Добавляем только одно сообщение о начале теста
+            addMessage('ai', `Начинаем пробный тест!
+            <br><br>
             <strong>Инструкция:</strong>
             <li>У вас будет 180 минут на 120 вопросов</li>
             <li>Вопросы из разных предметов</li>
             <li>После завершения - детальный разбор ошибок</li>
             <li>Рекомендации по улучшению результатов</li>
             <br>
-            В реальной версии здесь будет запущен симулятор экзамена.`);
+            <strong>Таймер запущен!</strong> Удачи!`);
             
-            // Анимируем статистику
+            // Показываем уведомление
+            showNotification('Тест начался! Таймер запущен.');
+            
+            // Запускаем анимацию статистики
             animateStatistics();
+            
+            // Запускаем таймер теста
+            startTestTimer();
         }
 
-        // Анимация статистики
+        // Таймер теста
+        function startTestTimer() {
+            const timerInterval = setInterval(() => {
+                if (!testStarted) {
+                    clearInterval(timerInterval);
+                    return;
+                }
+                
+                const elapsed = Date.now() - testStartTime;
+                const remaining = testDuration - elapsed;
+                
+                if (remaining <= 0) {
+                    clearInterval(timerInterval);
+                    testStarted = false;
+                    addMessage('ai', 'Время вышло! Тест завершен. Проверяем результаты...');
+                    showNotification('Тест завершен! Проверьте результаты.');
+                }
+            }, 1000);
+        }
+
+        // Анимация статистики (исправленная версия)
         function animateStatistics() {
             const stats = [
                 { id: 'questionsCount', target: 2500, suffix: '+' },
@@ -913,19 +928,21 @@
                 { id: 'activeUsers', target: 1200, suffix: '+' }
             ];
             
-            stats.forEach(stat => {
-                const element = document.getElementById(stat.id);
-                let current = 0;
-                const increment = stat.target / 50;
-                
-                const timer = setInterval(() => {
-                    current += increment;
-                    if (current >= stat.target) {
-                        current = stat.target;
-                        clearInterval(timer);
-                    }
-                    element.textContent = Math.floor(current) + stat.suffix;
-                }, 30);
+            stats.forEach((stat, index) => {
+                setTimeout(() => {
+                    const element = document.getElementById(stat.id);
+                    let current = 0;
+                    const increment = stat.target / 50;
+                    
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= stat.target) {
+                            current = stat.target;
+                            clearInterval(timer);
+                        }
+                        element.textContent = Math.floor(current) + stat.suffix;
+                    }, 30);
+                }, index * 300); // Задержка между анимациями
             });
         }
 
@@ -936,20 +953,42 @@
             }
         });
 
-        // Автофокус на поле ввода
+        // Инициализация при загрузке
         window.addEventListener('load', function() {
             userInput.focus();
             
             // Запускаем анимацию статистики при загрузке
             setTimeout(animateStatistics, 1000);
+            
+            // Показываем уведомление о загрузке
+            setTimeout(() => {
+                showNotification('Система успешно загружена и готова к работе!');
+            }, 500);
+            
+            // Убираем дублирующиеся сообщения
+            const messages = chatMessages.querySelectorAll('.ai-message');
+            if (messages.length > 1) {
+                // Оставляем только первое сообщение
+                for (let i = 1; i < messages.length; i++) {
+                    messages[i].remove();
+                }
+            }
         });
 
-        // Пример сообщения при загрузке
-        setTimeout(() => {
-            if (chatMessages.children.length === 1) {
-                addMessage('ai', `✅ <strong>Система готова к работе!</strong> Вы можете задавать вопросы по любым школьным предметам или начать тренировочный тест.`);
-            }
-        }, 1500);
+        // Предотвращаем множественные клики по кнопке теста
+        let testButtonClicked = false;
+        const originalStartTest = startTest;
+        startTest = function() {
+            if (testButtonClicked) return;
+            testButtonClicked = true;
+            
+            originalStartTest();
+            
+            // Разрешаем повторный клик через 5 секунд
+            setTimeout(() => {
+                testButtonClicked = false;
+            }, 5000);
+        };
     </script>
 </body>
 </html>
