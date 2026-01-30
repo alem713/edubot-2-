@@ -1,1 +1,1 @@
-# edubot-2-
+# edubot-2-Educational Assistant is an AI-powered web platform designed to help Kazakhstani students prepare for UNT exams. It provides 24/7 academic support through an intelligent chatbot, interactive courses, and realistic exam simulations.
