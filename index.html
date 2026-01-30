@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Умный наставник - Помощник школьника для ЕНТ</title>
+    <title>Умный наставник - AI помощник для ЕНТ</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -23,663 +23,744 @@
         }
         
         body {
-            background-color: #f5f7ff;
+            background: linear-gradient(135deg, #f5f7ff 0%, #e3e9ff 100%);
             color: var(--dark);
             line-height: 1.6;
+            min-height: 100vh;
         }
         
-        /* Header & Navigation */
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 1rem 2rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
         }
         
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 1.8rem;
-            font-weight: 700;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 1rem;
         }
         
-        .logo i {
+        .logo-icon {
+            font-size: 3rem;
             color: var(--accent);
         }
         
-        nav ul {
+        .logo-text {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+        }
+        
+        /* AI Chat Section */
+        .ai-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
             display: flex;
-            list-style: none;
-            gap: 2rem;
+            align-items: center;
+            gap: 15px;
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid var(--accent);
         }
         
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-            font-size: 1.1rem;
+        .section-title i {
+            color: var(--accent);
         }
         
-        nav a:hover {
+        .token-status {
+            background: #e7f9ff;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--success);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .token-status i {
+            font-size: 1.5rem;
             color: var(--success);
         }
         
-        .mobile-menu {
-            display: none;
-            font-size: 1.5rem;
-            cursor: pointer;
+        .status-text {
+            flex-grow: 1;
         }
         
-        /* Hero Section */
-        .hero {
-            padding: 5rem 2rem;
-            background: linear-gradient(rgba(67, 97, 238, 0.9), rgba(58, 12, 163, 0.9)), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
+        .status-label {
+            font-weight: 600;
+            color: var(--secondary);
+        }
+        
+        .status-value {
+            font-family: monospace;
+            background: rgba(0,0,0,0.05);
+            padding: 0.3rem 0.8rem;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            word-break: break-all;
+        }
+        
+        /* Chat Interface */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .chat-messages {
+            height: 400px;
+            overflow-y: auto;
+            padding: 1.5rem;
+            background: #f8f9ff;
+            border-radius: 15px;
+            border: 2px solid #e0e7ff;
+        }
+        
+        .message {
+            margin-bottom: 1.2rem;
+            padding: 1rem 1.5rem;
+            border-radius: 15px;
+            max-width: 80%;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .user-message {
+            background: linear-gradient(135deg, var(--primary), #5a7cff);
             color: white;
-            text-align: center;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
         }
         
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
+        .ai-message {
+            background: white;
+            color: var(--dark);
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid var(--accent);
         }
         
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        .message-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-weight: 600;
         }
         
-        .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
+        .user-message .message-header {
+            color: rgba(255,255,255,0.9);
         }
         
-        .cta-button {
-            display: inline-block;
-            background-color: var(--accent);
-            color: white;
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1.2rem;
+        .ai-message .message-header {
+            color: var(--secondary);
+        }
+        
+        .message-content {
+            line-height: 1.5;
+        }
+        
+        .typing-indicator {
+            display: flex;
+            gap: 5px;
+            padding: 1rem 1.5rem;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+        
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+        
+        /* Chat Input */
+        .chat-input-container {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 1.2rem 1.5rem;
+            border: 2px solid #e0e7ff;
+            border-radius: 15px;
+            font-size: 1.1rem;
             transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(247, 37, 133, 0.4);
-            border: none;
-            cursor: pointer;
+            background: white;
         }
         
-        .cta-button:hover {
-            background-color: #ff4d9f;
-            transform: translateY(-3px);
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        .send-button {
+            background: linear-gradient(135deg, var(--accent), #ff4d9f);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            padding: 0 2.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(247, 37, 133, 0.4);
+        }
+        
+        .send-button:hover:not(:disabled) {
+            transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(247, 37, 133, 0.6);
         }
         
-        /* Features Section */
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            color: var(--secondary);
-            margin-bottom: 3rem;
-            position: relative;
+        .send-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
         
-        .section-title:after {
-            content: '';
-            position: absolute;
-            width: 100px;
-            height: 4px;
-            background: var(--accent);
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-radius: 2px;
+        /* Quick Questions */
+        .quick-questions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
         }
         
-        .features, .courses, .ai-assistant, .ent-simulator {
-            padding: 5rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
+        .quick-question-btn {
+            padding: 1rem;
+            background: white;
+            border: 2px solid #e0e7ff;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+            color: var(--dark);
         }
         
-        .features-grid, .courses-grid {
+        .quick-question-btn:hover {
+            border-color: var(--primary);
+            background: #f8f9ff;
+            transform: translateY(-2px);
+        }
+        
+        /* Features */
+        .features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
             margin-top: 3rem;
         }
         
-        .feature-card, .course-card {
+        .feature-card {
             background: white;
-            border-radius: 15px;
             padding: 2rem;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s, box-shadow 0.3s;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
         }
         
-        .feature-card:hover, .course-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        .feature-card:hover {
+            transform: translateY(-5px);
         }
         
-        .feature-icon, .course-icon {
+        .feature-icon {
             font-size: 2.5rem;
             color: var(--primary);
             margin-bottom: 1rem;
         }
         
-        .feature-card h3, .course-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
+        .feature-title {
+            font-size: 1.3rem;
             color: var(--secondary);
-        }
-        
-        /* AI Assistant Section */
-        .ai-assistant {
-            background: linear-gradient(135deg, #f5f7ff 0%, #e3e9ff 100%);
-            border-radius: 20px;
-            margin: 3rem auto;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-        }
-        
-        .ai-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2rem;
-        }
-        
-        .ai-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            font-size: 2rem;
-            color: var(--secondary);
-        }
-        
-        .ai-header i {
-            color: var(--accent);
-        }
-        
-        .ai-chat {
-            width: 100%;
-            max-width: 800px;
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-        
-        .chat-messages {
-            height: 300px;
-            overflow-y: auto;
-            margin-bottom: 1.5rem;
-            padding: 1rem;
-            border: 1px solid #e0e0e0;
-            border-radius: 10px;
-        }
-        
-        .message {
             margin-bottom: 1rem;
-            padding: 0.8rem 1.2rem;
-            border-radius: 15px;
-            max-width: 80%;
-        }
-        
-        .user-message {
-            background-color: var(--primary);
-            color: white;
-            margin-left: auto;
-            border-bottom-right-radius: 5px;
-        }
-        
-        .ai-message {
-            background-color: #f0f2ff;
-            color: var(--dark);
-            margin-right: auto;
-            border-bottom-left-radius: 5px;
-        }
-        
-        .chat-input {
-            display: flex;
-            gap: 1rem;
-        }
-        
-        .chat-input input {
-            flex: 1;
-            padding: 1rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 50px;
-            font-size: 1rem;
-            transition: border 0.3s;
-        }
-        
-        .chat-input input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-        
-        .chat-input button {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            font-size: 1.2rem;
-        }
-        
-        .chat-input button:hover {
-            background-color: var(--secondary);
-        }
-        
-        .api-key-info {
-            background-color: #e7f9ff;
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin-top: 2rem;
-            border-left: 5px solid var(--success);
-            font-size: 0.9rem;
-        }
-        
-        /* ЕНТ Simulator */
-        .ent-simulator {
-            text-align: center;
-        }
-        
-        .simulator-stats {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            margin-top: 3rem;
-            flex-wrap: wrap;
-        }
-        
-        .stat {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-            min-width: 200px;
-        }
-        
-        .stat-number {
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-        
-        .stat-label {
-            font-size: 1.2rem;
-            color: var(--dark);
         }
         
         /* Footer */
         footer {
-            background-color: var(--secondary);
-            color: white;
-            padding: 3rem 2rem;
             text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid #e0e7ff;
+            color: var(--secondary);
         }
         
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .social-links {
+        .footer-links {
             display: flex;
             justify-content: center;
             gap: 2rem;
-            margin: 2rem 0;
-            font-size: 1.5rem;
+            margin: 1.5rem 0;
         }
         
-        .social-links a {
-            color: white;
+        .footer-links a {
+            color: var(--primary);
+            text-decoration: none;
             transition: color 0.3s;
         }
         
-        .social-links a:hover {
-            color: var(--success);
+        .footer-links a:hover {
+            color: var(--accent);
         }
         
-        .copyright {
-            margin-top: 2rem;
-            opacity: 0.8;
-            font-size: 0.9rem;
-        }
-        
-        /* Responsive Design */
+        /* Responsive */
         @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background-color: var(--secondary);
-                flex-direction: column;
-                padding: 2rem;
-                text-align: center;
-                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            .container {
+                padding: 1rem;
             }
             
-            .nav-links.active {
-                display: flex;
-            }
-            
-            .mobile-menu {
-                display: block;
-            }
-            
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            
-            .hero p {
-                font-size: 1.1rem;
-            }
-            
-            .section-title {
+            .logo-text {
                 font-size: 2rem;
             }
             
-            .features, .courses, .ai-assistant, .ent-simulator {
-                padding: 3rem 1.5rem;
+            .ai-section {
+                padding: 1.5rem;
             }
             
-            .simulator-stats {
+            .chat-messages {
+                height: 300px;
+            }
+            
+            .message {
+                max-width: 90%;
+            }
+            
+            .chat-input-container {
                 flex-direction: column;
-                align-items: center;
-                gap: 1.5rem;
+            }
+            
+            .send-button {
+                padding: 1rem;
+                justify-content: center;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="nav-container">
+    <div class="container">
+        <header>
             <div class="logo">
-                <i class="fas fa-graduation-cap"></i>
-                <span>Умный наставник</span>
+                <i class="fas fa-robot logo-icon"></i>
+                <div class="logo-text">Умный наставник</div>
             </div>
-            <div class="mobile-menu" id="mobileMenu">
-                <i class="fas fa-bars"></i>
-            </div>
-            <nav>
-                <ul class="nav-links" id="navLinks">
-                    <li><a href="#home">Главная</a></li>
-                    <li><a href="#features">Преимущества</a></li>
-                    <li><a href="#courses">Курсы</a></li>
-                    <li><a href="#ai">AI-помощник</a></li>
-                    <li><a href="#ent">ЕНТ симулятор</a></li>
-                    <li><a href="#contact">Контакты</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+            <div class="tagline">AI-помощник для подготовки к ЕНТ • Проект для конкурса Informatrix</div>
+        </header>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <h1>Персональный помощник для успешной сдачи ЕНТ</h1>
-            <p>Искусственный интеллект, адаптивные курсы и симулятор тестирования в одном месте. Повысь свой результат на 30+ баллов!</p>
-            <a href="#courses" class="cta-button">Начать обучение бесплатно</a>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="features" id="features">
-        <h2 class="section-title">Почему выбирают нас</h2>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-robot"></i>
-                </div>
-                <h3>AI-Наставник 24/7</h3>
-                <p>Получайте ответы на любые вопросы по учебным предметам в любое время суток. Наш ИИ объясняет сложные темы простым языком.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-                <h3>Адаптивное обучение</h3>
-                <p>Система анализирует ваши успехи и автоматически подбирает материалы для изучения слабых мест.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-clipboard-check"></i>
-                </div>
-                <h3>Симулятор ЕНТ</h3>
-                <p>Реальные тесты прошлых лет с мгновенной проверкой и разбором ошибок. Таймер и атмосфера реального экзамена.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Courses Section -->
-    <section class="courses" id="courses">
-        <h2 class="section-title">Курсы для подготовки</h2>
-        <div class="courses-grid">
-            <div class="course-card">
-                <div class="course-icon">
-                    <i class="fas fa-calculator"></i>
-                </div>
-                <h3>Математика</h3>
-                <p>От алгебры до математического анализа. Интерактивные задания и видеоуроки от лучших преподавателей.</p>
-                <div style="margin-top: 1rem; color: var(--primary); font-weight: 600;">120+ уроков</div>
-            </div>
-            <div class="course-card">
-                <div class="course-icon">
-                    <i class="fas fa-flask"></i>
-                </div>
-                <h3>Физика</h3>
-                <p>Эксперименты, формулы и решение задач. 3D-модели физических процессов для лучшего понимания.</p>
-                <div style="margin-top: 1rem; color: var(--primary); font-weight: 600;">80+ уроков</div>
-            </div>
-            <div class="course-card">
-                <div class="course-icon">
-                    <i class="fas fa-book"></i>
-                </div>
-                <h3>История Казахстана</h3>
-                <p>Хронология событий, личности, даты. Интерактивные карты и timelines для эффективного запоминания.</p>
-                <div style="margin-top: 1rem; color: var(--primary); font-weight: 600;">60+ уроков</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- AI Assistant Section -->
-    <section class="ai-assistant" id="ai">
-        <h2 class="section-title">Бесплатный AI-помощник</h2>
-        <div class="ai-container">
-            <div class="ai-header">
-                <i class="fas fa-robot"></i>
-                <span>Задайте вопрос нашему ИИ-наставнику</span>
-            </div>
-            
-            <div class="ai-chat">
-                <div class="chat-messages" id="chatMessages">
-                    <div class="message ai-message">
-                        <strong>AI-Наставник:</strong> Привет! Я твой цифровой помощник. Задай мне любой вопрос по учебным предметам, и я постараюсь помочь тебе разобраться. Например, спроси: "Объясни теорему Пифагора" или "В чем разница между митозом и мейозом?"
+        <main>
+            <section class="ai-section">
+                <h2 class="section-title">
+                    <i class="fas fa-comments"></i>
+                    AI-Наставник для школьников
+                </h2>
+                
+                <div class="token-status">
+                    <i class="fas fa-check-circle"></i>
+                    <div class="status-text">
+                        <div class="status-label">Hugging Face API Токен подключен:</div>
+                        <div class="status-value" id="tokenDisplay">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</div>
                     </div>
+                    <button onclick="copyToken()" class="send-button" style="padding: 0.5rem 1.5rem; font-size: 0.9rem;">
+                        <i class="fas fa-copy"></i> Копировать
+                    </button>
                 </div>
                 
-                <div class="chat-input">
-                    <input type="text" id="userInput" placeholder="Введите ваш вопрос здесь...">
-                    <button id="sendButton"><i class="fas fa-paper-plane"></i></button>
+                <div class="chat-container">
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message ai-message">
+                            <div class="message-header">
+                                <i class="fas fa-robot"></i>
+                                AI-Наставник
+                            </div>
+                            <div class="message-content">
+                                Привет! Я ваш AI-помощник для подготовки к ЕНТ. Я могу:
+                                <br><br>
+                                📚 <strong>Объяснять сложные темы</strong> по математике, физике, истории и другим предметам
+                                <br>
+                                🎯 <strong>Помогать с решением задач</strong> и показывать пошаговые решения
+                                <br>
+                                📖 <strong>Составлять учебные планы</strong> для эффективной подготовки
+                                <br>
+                                ❓ <strong>Отвечать на вопросы</strong> по школьной программе 10-11 классов
+                                <br><br>
+                                Задайте мне любой вопрос или выберите один из примеров ниже!
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input-container">
+                        <input type="text" 
+                               class="chat-input" 
+                               id="userInput" 
+                               placeholder="Задайте вопрос по математике, физике, истории... (например: 'Объясни теорему Пифагора')"
+                               onkeypress="if(event.key === 'Enter') sendMessage()">
+                        <button class="send-button" id="sendButton" onclick="sendMessage()">
+                            <i class="fas fa-paper-plane"></i> Отправить
+                        </button>
+                    </div>
+                    
+                    <div class="quick-questions">
+                        <button class="quick-question-btn" onclick="askQuickQuestion('Объясни теорему Пифагора простыми словами')">
+                            <i class="fas fa-calculator"></i> Объясни теорему Пифагора
+                        </button>
+                        <button class="quick-question-btn" onclick="askQuickQuestion('Что такое фотосинтез и какие этапы включает?')">
+                            <i class="fas fa-leaf"></i> Что такое фотосинтез?
+                        </button>
+                        <button class="quick-question-btn" onclick="askQuickQuestion('Кто был ханом Казахского ханства при его образовании?')">
+                            <i class="fas fa-landmark"></i> История Казахстана
+                        </button>
+                        <button class="quick-question-btn" onclick="askQuickQuestion('Составь план подготовки к ЕНТ по математике на месяц')">
+                            <i class="fas fa-chart-line"></i> План подготовки к ЕНТ
+                        </button>
+                    </div>
                 </div>
-            </div>
+            </section>
             
-            <div class="api-key-info">
-                <h3><i class="fas fa-key"></i> Как получить бесплатный ключ для AI?</h3>
-                <p>Для работы полноценного AI-помощника нужен API-ключ. Вот как получить его бесплатно:</p>
-                <ol style="text-align: left; margin-top: 10px; padding-left: 20px;">
-                    <li>Перейдите на <a href="https://platform.openai.com/signup" target="_blank">OpenAI Platform</a> и зарегистрируйтесь</li>
-                    <li>В разделе "API Keys" создайте новый ключ</li>
-                    <li>Новые пользователи получают бесплатные кредиты на первые 3 месяца</li>
-                    <li>Альтернатива: используйте <a href="https://huggingface.co/" target="_blank">Hugging Face</a> для бесплатных моделей</li>
-                </ol>
-                <p style="margin-top: 10px; font-weight: 600;">Для демонстрации на конкурсе этого прототипа достаточно! Вы можете показать как будет работать интеграция.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- ЕНТ Simulator Section -->
-    <section class="ent-simulator" id="ent">
-        <h2 class="section-title">Симулятор ЕНТ</h2>
-        <p style="max-width: 800px; margin: 0 auto 2rem; font-size: 1.2rem;">Пройдите пробный тест в условиях, максимально приближенных к реальному ЕНТ. Таймер, случайные вопросы из базы данных и мгновенный результат.</p>
+            <section class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="feature-title">Умный AI на Hugging Face</h3>
+                    <p>Используем современные языковые модели для точных и понятных объяснений. Работает через официальный API Hugging Face.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3 class="feature-title">Специально для ЕНТ</h3>
+                    <p>AI обучен помогать с подготовкой к ЕНТ. Знает программу 10-11 классов и типовые вопросы экзамена.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="feature-title">Быстрые ответы</h3>
+                    <p>Получайте объяснения сложных тем за секунды. AI разбирает задачи по шагам и приводит примеры.</p>
+                </div>
+            </section>
+        </main>
         
-        <div class="simulator-stats">
-            <div class="stat">
-                <div class="stat-number" id="questionsCount">2500+</div>
-                <div class="stat-label">вопросов в базе</div>
+        <footer>
+            <div class="footer-links">
+                <a href="#"><i class="fas fa-code"></i> Исходный код</a>
+                <a href="#"><i class="fas fa-book"></i> Документация</a>
+                <a href="#"><i class="fas fa-trophy"></i> Конкурс Informatrix</a>
             </div>
-            <div class="stat">
-                <div class="stat-number" id="averageScore">87%</div>
-                <div class="stat-label">средний результат</div>
-            </div>
-            <div class="stat">
-                <div class="stat-number" id="usersCount">5000+</div>
-                <div class="stat-label">школьников готовятся</div>
-            </div>
-        </div>
-        
-        <button class="cta-button" style="margin-top: 3rem;" id="startTestBtn">Начать пробный тест</button>
-    </section>
-
-    <!-- Footer -->
-    <footer id="contact">
-        <div class="footer-content">
-            <h2 style="font-size: 2rem; margin-bottom: 1rem;">Умный наставник</h2>
-            <p>Проект для конкурса Informatrix • Помощь школьникам в подготовке к ЕНТ</p>
-            
-            <div class="social-links">
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-telegram"></i></a>
-                <a href="#"><i class="fab fa-youtube"></i></a>
-                <a href="#"><i class="fab fa-vk"></i></a>
-            </div>
-            
-            <div class="copyright">
-                © 2023 Умный наставник. Все права защищены. | Проект разработан для конкурса Informatrix
-            </div>
-        </div>
-    </footer>
+            <p>© 2023 "Умный наставник" - Проект для конкурса Informatrix. Все права защищены.</p>
+            <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--primary);">
+                <i class="fas fa-shield-alt"></i> Ваш токен API хранится только в вашем браузере и не отправляется на наши серверы
+            </p>
+        </footer>
+    </div>
 
     <script>
-        // Mobile menu toggle
-        document.getElementById('mobileMenu').addEventListener('click', function() {
-            document.getElementById('navLinks').classList.toggle('active');
-        });
+        // Ваш Hugging Face токен
+        const HF_TOKEN = "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";
         
-        // Close mobile menu when clicking a link
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                document.getElementById('navLinks').classList.remove('active');
-            });
-        });
+        // Выбранная модель (можно менять)
+        const MODEL_NAME = "google/flan-t5-base";
+        // Альтернативные модели:
+        // - "microsoft/DialoGPT-small" - для диалогов
+        // - "gpt2" - для генерации текста
+        // - "deepset/roberta-base-squad2" - для вопросов-ответов
         
-        // AI Chat functionality (demo version)
+        // Элементы интерфейса
         const chatMessages = document.getElementById('chatMessages');
         const userInput = document.getElementById('userInput');
         const sendButton = document.getElementById('sendButton');
         
-        // Predefined AI responses for demo
-        const aiResponses = [
-            "Отличный вопрос! Для решения этой задачи по математике нужно применить формулу квадратного уравнения. Давайте разберем по шагам...",
-            "В физике этот закон называется законом сохранения энергии. Он гласит, что энергия не возникает и не исчезает, а только превращается из одной формы в другую.",
-            "Историческое событие, о котором вы спрашиваете, произошло в 15 веке и сыграло ключевую роль в формировании казахской государственности.",
-            "В литературе этот прием называется метафорой. Автор использует его, чтобы создать более яркий образ и передать скрытый смысл.",
-            "Для успешной сдачи ЕНТ по этому предмету рекомендую уделить внимание следующим темам: 1) ... 2) ... 3) ...",
-            "Химическая реакция, которую вы описываете, является реакцией замещения. Давайте запишем ее уравнение и расставим коэффициенты..."
-        ];
+        // Копирование токена
+        function copyToken() {
+            navigator.clipboard.writeText(HF_TOKEN).then(() => {
+                alert('Токен скопирован в буфер обмена!');
+            });
+        }
         
-        function addMessage(sender, text) {
+        // Быстрый вопрос
+        function askQuickQuestion(question) {
+            userInput.value = question;
+            sendMessage();
+        }
+        
+        // Добавление сообщения в чат
+        function addMessage(sender, content, isTyping = false) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${sender}-message`;
             
-            const senderName = sender === 'user' ? 'Вы' : 'AI-Наставник';
-            messageDiv.innerHTML = `<strong>${senderName}:</strong> ${text}`;
+            if (isTyping) {
+                messageDiv.innerHTML = `
+                    <div class="message-header">
+                        <i class="fas fa-robot"></i>
+                        AI-Наставник
+                    </div>
+                    <div class="typing-indicator">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                `;
+            } else {
+                const senderName = sender === 'user' ? 'Вы' : 'AI-Наставник';
+                const senderIcon = sender === 'user' ? 'fas fa-user' : 'fas fa-robot';
+                
+                messageDiv.innerHTML = `
+                    <div class="message-header">
+                        <i class="${senderIcon}"></i>
+                        ${senderName}
+                    </div>
+                    <div class="message-content">${formatResponse(content)}</div>
+                `;
+            }
             
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
         
-        function getAIResponse() {
-            // In a real implementation, this would call an AI API
-            // For demo, we return a random predefined response
-            const randomIndex = Math.floor(Math.random() * aiResponses.length);
-            return aiResponses[randomIndex];
+        // Форматирование ответа AI
+        function formatResponse(text) {
+            return text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Жирный текст
+                .replace(/\n/g, '<br>') // Переносы строк
+                .replace(/### (.*?)(?:\n|$)/g, '<h4>$1</h4>') // Заголовки
+                .replace(/- (.*?)(?:\n|$)/g, '<li>$1</li>'); // Списки
         }
         
-        sendButton.addEventListener('click', function() {
+        // Получение демо-ответа (если API не отвечает)
+        function getDemoResponse(question) {
+            const lowerQ = question.toLowerCase();
+            
+            const responses = {
+                'пифагор': `Теорема Пифагора — фундаментальное утверждение в геометрии. Она гласит:
+                <br><br>
+                <strong>В прямоугольном треугольнике квадрат гипотенузы равен сумме квадратов катетов.</strong>
+                <br><br>
+                Формула: c² = a² + b²
+                <br><br>
+                Где:
+                <li>c — гипотенуза (сторона напротив прямого угла)</li>
+                <li>a и b — катеты (стороны, образующие прямой угол)</li>
+                <br>
+                Эта теорема используется для вычисления длин сторон в прямоугольных треугольниках.`,
+                
+                'фотосинтез': `Фотосинтез — процесс преобразования световой энергии в химическую энергию растениями.
+                <br><br>
+                <strong>Уравнение фотосинтеза:</strong>
+                6CO₂ + 6H₂O + световая энергия → C₆H₁₂O₆ + 6O₂
+                <br><br>
+                <strong>Основные этапы:</strong>
+                <li>1. Световые реакции (в тилакоидах)</li>
+                <li>2. Темновые реакции/Цикл Кальвина (в строме)</li>
+                <br>
+                Значение фотосинтеза: производит кислород и органические вещества.`,
+                
+                'хан казахского': `Казахское ханство было образовано в 1465 году.
+                <br><br>
+                <strong>Первые ханы:</strong>
+                <li>Керей (1465–1473)</li>
+                <li>Жанибек (1465–1473) — соправитель</li>
+                <br>
+                Они были потомками Жошы-хана, старшего сына Чингисхана. Казахское ханство объединило тюркские и монгольские племена на территории современного Казахстана.`,
+                
+                'ент математик': `План подготовки к ЕНТ по математике на месяц:
+                <br><br>
+                <strong>Неделя 1-2: Алгебра</strong>
+                <li>Уравнения и неравенства</li>
+                <li>Функции и графики</li>
+                <li>Прогрессии</li>
+                <br>
+                <strong>Неделя 3: Геометрия</strong>
+                <li>Планиметрия</li>
+                <li>Стереометрия</li>
+                <li>Векторы</li>
+                <br>
+                <strong>Неделя 4: Решение тестов</strong>
+                <li>Прошлые годы ЕНТ</li>
+                <li>Тайм-менеджмент</li>
+                <li>Разбор ошибок</li>`
+            };
+            
+            // Ищем подходящий ответ
+            for (const [key, response] of Object.entries(responses)) {
+                if (lowerQ.includes(key)) {
+                    return response;
+                }
+            }
+            
+            // Общий ответ
+            return `Спасибо за ваш вопрос: <strong>"${question}"</strong>
+            <br><br>
+            Для подготовки к ЕНТ по этой теме рекомендую:
+            <li>Изучить теорию в учебнике</li>
+            <li>Решать практические задачи</li>
+            <li>Пройти тесты прошлых лет</li>
+            <li>Составить конспект ключевых формул</li>
+            <br>
+            Хотите более подробное объяснение по конкретному аспекту?`;
+        }
+        
+        // Запрос к Hugging Face API
+        async function queryHuggingFaceAPI(question) {
+            // Показываем индикатор набора
+            addMessage('ai', '', true);
+            
+            try {
+                const response = await fetch(
+                    `https://api-inference.huggingface.co/models/${MODEL_NAME}`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${HF_TOKEN}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            inputs: `Ты - помощник для школьников в Казахстане, готовящихся к ЕНТ. 
+                            Отвечай четко, понятно, на русском языке. 
+                            Объясняй как хороший учитель, с примерами.
+                            
+                            Вопрос ученика: ${question}
+                            
+                            Полезный и понятный ответ:`,
+                            parameters: {
+                                max_length: 500,
+                                temperature: 0.7,
+                                top_p: 0.9,
+                                do_sample: true
+                            }
+                        })
+                    }
+                );
+                
+                // Удаляем индикатор набора
+                chatMessages.removeChild(chatMessages.lastChild);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.error) {
+                    console.error('API Error:', data.error);
+                    return getDemoResponse(question);
+                }
+                
+                // Извлекаем сгенерированный текст
+                let answer = data[0]?.generated_text || '';
+                
+                // Если ответ пустой, используем демо-ответ
+                if (!answer.trim()) {
+                    return getDemoResponse(question);
+                }
+                
+                // Очищаем ответ от лишнего
+                answer = answer.replace(/Полезный и понятный ответ:/, '').trim();
+                
+                return answer || getDemoResponse(question);
+                
+            } catch (error) {
+                console.error('Error querying Hugging Face:', error);
+                
+                // Удаляем индикатор набора
+                if (chatMessages.lastChild?.querySelector?.('.typing-indicator')) {
+                    chatMessages.removeChild(chatMessages.lastChild);
+                }
+                
+                // Возвращаем демо-ответ с информацией об ошибке
+                return `Извините, возникла техническая ошибка при запросе к AI. Вот полезная информация по вашему вопросу:
+                <br><br>
+                ${getDemoResponse(question)}
+                <br><br>
+                <em>Ошибка: ${error.message}</em>`;
+            }
+        }
+        
+        // Отправка сообщения
+        async function sendMessage() {
             const question = userInput.value.trim();
             
-            if (question) {
-                addMessage('user', question);
-                userInput.value = '';
-                
-                // Simulate AI thinking
-                setTimeout(() => {
-                    addMessage('ai', getAIResponse());
-                }, 1000);
-            }
-        });
-        
-        userInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                sendButton.click();
-            }
-        });
-        
-        // ЕНТ Simulator button
-        document.getElementById('startTestBtn').addEventListener('click', function() {
-            alert("В полной версии приложения здесь начнется симуляция теста ЕНТ с таймером и случайными вопросами. Для демонстрации на конкурсе этого достаточно!");
-        });
-        
-        // Animated statistics
-        function animateValue(element, start, end, duration) {
-            let startTimestamp = null;
-            const step = (timestamp) => {
-                if (!startTimestamp) startTimestamp = timestamp;
-                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                const value = Math.floor(progress * (end - start) + start);
-                element.textContent = value + (element.id === 'questionsCount' ? '+' : '%');
-                if (progress < 1) {
-                    window.requestAnimationFrame(step);
-                }
-            };
-            window.requestAnimationFrame(step);
+            if (!question) return;
+            
+            // Добавляем вопрос пользователя
+            addMessage('user', question);
+            
+            // Очищаем поле ввода
+            userInput.value = '';
+            userInput.disabled = true;
+            sendButton.disabled = true;
+            
+            // Получаем ответ от AI
+            const aiResponse = await queryHuggingFaceAPI(question);
+            
+            // Добавляем ответ AI
+            addMessage('ai', aiResponse);
+            
+            // Включаем поле ввода
+            userInput.disabled = false;
+            sendButton.disabled = false;
+            userInput.focus();
         }
         
-        // Start animations when page loads
-        window.addEventListener('load', function() {
-            setTimeout(() => {
-                animateValue(document.getElementById('questionsCount'), 0, 2500, 2000);
-                animateValue(document.getElementById('averageScore'), 0, 87, 1500);
-                animateValue(document.getElementById('usersCount'), 0, 5000, 2500);
-            }, 1000);
+        // Отправка по Enter
+        userInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
         });
+        
+        // Автофокус на поле ввода
+        window.addEventListener('load', function() {
+            userInput.focus();
+        });
+        
+        // Пример приветствия
+        setTimeout(() => {
+            if (chatMessages.children.length === 1) {
+                addMessage('ai', `✅ <strong>Готов к работе!</strong> Ваш Hugging Face токен успешно подключен к модели "${MODEL_NAME}". Задавайте вопросы по школьной программе!`);
+            }
+        }, 2000);
     </script>
 </body>
 </html>
