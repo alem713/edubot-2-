@@ -3,44 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduBot - Платформа для школьников</title>
-    <link rel="stylesheet" href="style.css"> </head>
+    <title>EduBot AI — Помощник школьника</title>
+    <link rel="stylesheet" href="style.css">
+</head>
 <body>
     <nav>
-        <div class="logo">EduBot AI</div>
-        <ul class="nav-links">
-            <li><a href="#courses">Курсы</a></li>
-            <li><a href="#ent">ЕНТ</a></li>
-            <li><a href="#ai">AI Помощник</a></li>
-            <li><a href="#calc">Калькулятор</a></li>
-            <li id="auth-section"><button onclick="openAuth()">Войти</button></li>
-        </ul>
+        <div class="logo">🚀 EduBot</div>
+        <div class="auth-box" id="auth-display">
+            <button onclick="login()">Войти</button>
+        </div>
     </nav>
 
-    <main>
-        <section id="user-profile" style="display:none;">
-            <h2>Привет, <span id="username">Ученик</span>!</h2>
-            <p>Твой прогресс: <span id="progress">0%</span></p>
+    <div class="container">
+        <section id="profile-section" class="card" style="display:none;">
+            <h2>С возвращением, <span id="user-name-val">Ученик</span>!</h2>
+            <p>Твой прогресс в подготовке: <strong id="user-progress">0</strong> баллов</p>
         </section>
 
-        <section id="ai" class="card">
+        <div class="grid">
+            <section class="card">
+                <h3>📚 Курсы по предметам</h3>
+                <ul class="list">
+                    <li><button onclick="addProgress(10)">Математика (Видео)</button></li>
+                    <li><button onclick="addProgress(10)">Физика (Конспекты)</button></li>
+                    <li><button onclick="addProgress(10)">История (Тесты)</button></li>
+                </ul>
+            </section>
+
+            <section class="card">
+                <h3>📝 Тренажер ЕНТ</h3>
+                <p>Вопрос: Какая формула силы тока?</p>
+                <button onclick="checkEnt('I=U/R')">I = U / R</button>
+                <button onclick="checkEnt('wrong')">I = R / U</button>
+                <div id="ent-res"></div>
+            </section>
+        </div>
+
+        <section class="card ai-section">
             <h3>🤖 ИИ Учитель</h3>
             <div id="chat-window"></div>
-            <input type="text" id="ai-input" placeholder="Спроси о физике или математике...">
-            <button onclick="askAI()">Спросить</button>
-        </section>
-
-        <section id="calc" class="card">
-            <h3>🧮 Быстрый расчет</h3>
-            <input type="text" id="calc-display" readonly>
-            <div class="calc-buttons">
-                <button onclick="addToCalc('1')">1</button>
-                <button onclick="addToCalc('+')">+</button>
-                <button onclick="calculateResult()">=</button>
-                <button onclick="clearCalc()">C</button>
+            <div class="input-group">
+                <input type="text" id="ai-input" placeholder="Напиши вопрос...">
+                <button onclick="askAI()">Спросить</button>
             </div>
         </section>
-    </main>
 
-    <script src="script.js"></script> </body>
+        <section class="card calc-section">
+            <h3>🧮 Калькулятор</h3>
+            <input type="text" id="calc-display" readonly>
+            <div class="calc-grid">
+                <button onclick="press('7')">7</button><button onclick="press('8')">8</button><button onclick="press('9')">9</button><button onclick="press('/')">/</button>
+                <button onclick="press('4')">4</button><button onclick="press('5')">5</button><button onclick="press('6')">6</button><button onclick="press('*')">*</button>
+                <button onclick="press('1')">1</button><button onclick="press('2')">2</button><button onclick="press('3')">3</button><button onclick="press('-')">-</button>
+                <button onclick="press('0')">0</button><button onclick="clr()">C</button><button onclick="equal()">=</button><button onclick="press('+')">+</button>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
 </html>
