@@ -51,9 +51,3 @@ Contact
 Project Owner: Alemger Serikkhan
 Repository: github.com/alem713/edubot-2-
 Live Demo: alem713.github.io/edubot-2-/
-
- Acknowledgements
-Informatrix Competition for the opportunity
-Hugging Face for AI inspiration (though we use local processing)
-Open Source Community for tools and resources
-Kazakhstan's Students - our inspiration and motivation
